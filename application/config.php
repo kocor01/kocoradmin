@@ -242,4 +242,14 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+    // auth配置
+    'auth'  => [
+        'AUTH_ON'           => 1, // 权限开关
+        'AUTH_TYPE'         => 1, // 认证方式，1为实时认证；2为登录认证。
+        'AUTH_GROUP'        => 'auth_group', // 用户组数据不带前缀表名
+        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系不带前缀表
+        'AUTH_RULE'         => 'auth_rule', // 权限规则不带前缀表
+        'AUTH_USER'         => 'member', // 用户信息不带前缀表
+    ],
 ];

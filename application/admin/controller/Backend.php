@@ -5,14 +5,54 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use kocor\Auth;
+use app\admin\model\Login;
+use app\admin\model\Admin;
 
 class Backend extends Controller
 {
+	//无需登录方法
+	protected $noNeedLogin = [];
+
+	//无需鉴权方法
+	protected $noNeedAuth = [];
+
+	//登录管理员信息
+	protected $adminInfo = [];
 
     public function _initialize()
     {
         parent::_initialize();
         $this->request->filter(['strip_tags']);     //设置过滤方法
+
+        $request = Request::instance();
+        $module = strtolower($request->module());
+		$controller = strtolower($request->controller());
+		$action = $request->action();
+
+        $login = model('Login');
+
+        //检测是否需要验证登录
+        if($login->isNeedLogin($action,$this->noNeedLogin)){
+	        //判断是否登录
+	        if(!$login->isLogin()){
+	        	$this->success("你还未登录",'admin/index/login');
+	        }
+	        
+	        //获取登录管理员信息
+	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
+
+			$this->auth = new Auth;
+	        //检测是否需要验证权限
+	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
+		        //权限控制
+				$path = $controller.'/'.$action;
+				if(!$this->auth->check($path,$this->adminInfo['id'])){
+					$this->error("你没有权限！");
+				}
+	        }
+        }
+
     }
 
     

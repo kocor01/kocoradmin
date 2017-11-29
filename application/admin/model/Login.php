@@ -47,7 +47,7 @@ class Login extends Model
     //是否登录
     public function isLogin()
     {
-        return Session::has('admin') ? true : false;;
+        return Session::has('admin') ? true : false;
     }
 
     //注销登录
@@ -100,6 +100,11 @@ class Login extends Model
     	}else{
     		return false;
     	}
+    }
+
+    //检测是否需要验证登录
+    public function isNeedLogin($action,$noNeedLogin){
+        return in_array($action, $noNeedLogin)?false:true;
     }
 
 
