@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {include file="common/meta" /}
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <!-- 头部 -->
+  {include file="common/header" /}
+
+  <!-- 左边栏 -->
+  {include file="common/menu" /}
+
+  <!-- 主体页面 -->
+  <div class="content-wrapper" style="background: #fff">
+    <!-- Content Header (Page header) -->
+    
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <!-- 主体页面面包屑导航 -->
+      <section class="content-header">
+        <h1>管理标题<small>管理副标题</small></h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> 系统首页</a></li>
+          <li class="active">标题</li>
+        </ol>
+      </section>
+
+      <!-- 内容主体 -->
+      <section class="content container-fluid">
+
+        {__CONTENT__}
+
+      </section>
+      <!-- /.内容主体 -->
+    </div>
+  </div>
+    <!-- /.页面主体 -->
+  </div>
+  <!-- /.主体页面 -->
+
+  <!-- 页面尾部 -->
+  {include file="common/footer" /}
+
+  <!-- 控制栏 -->
+  {include file="common/control" /}
+  
+</div>
+
+<!-- 必要的JS脚本 -->
+
+<!-- jQuery 3 -->
+{include file="common/script" /}
+
+</body>
+</html>

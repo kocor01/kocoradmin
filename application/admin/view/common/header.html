@@ -1,0 +1,260 @@
+<header class="main-header">
+
+    <!-- Logo -->
+    <a href="{:url('index/index')}" class="logo">
+      <!-- 迷你侧边栏LOGO 50x50 像素 -->
+      <span class="logo-mini"><b>K</b>OCOL</span>
+      <!-- 常规及移动模式下LOGO -->
+      <span class="logo-lg"><b>Kocol</b>管理系统</span>
+    </a>
+
+    <!-- 头部导航 -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- 侧边栏切换按钮-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">切换导航</span>
+      </a>
+
+      
+      <div id="nav" class="pull-left" >
+        <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
+          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+        </ul>
+      </div>
+
+
+
+<style type="text/css">
+  
+.main-header .navbar #nav {
+  position: absolute;
+  left: 45px;
+}
+.nav-addtabs {
+    border: none;
+}
+
+/*顶栏addtabs*/
+.nav-addtabs {
+  border: none;
+}
+.nav-addtabs.disable-top-badge > li > a > .pull-right-container {
+  display: none;
+}
+.nav-addtabs > li {
+  margin: 0;
+}
+.nav-addtabs > li > a {
+  height: 49px;
+  line-height: 49px;
+  padding: 0 18px;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  margin: 0;
+  color: #95a5a6;
+}
+.nav-addtabs > li > a:hover,
+.nav-addtabs > li > a:focus {
+  border: none;
+  color: #2c3e50;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+.nav-addtabs > li > a i {
+  margin-right: 3px;
+}
+.nav-addtabs > li.active > a {
+  height: 49px;
+  line-height: 49px;
+  padding: 0 18px;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  background: #f1f4f6;
+  color: #2c3e50;
+  overflow: hidden;
+}
+.nav-addtabs > li.active > a:hover,
+.nav-addtabs > li.active > a:focus {
+  border: none;
+  color: #2c3e50;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  background: #f1f4f6;
+}
+.nav-addtabs > li .close-tab {
+  font-size: 10px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  margin-top: -7px;
+  z-index: 100;
+  cursor: hand;
+  cursor: pointer;
+  color: #fff;
+  display: none;
+}
+.nav-addtabs .open > a:hover,
+.nav-addtabs .open > a:focus {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+.nav-addtabs ul li {
+  position: relative;
+}
+.nav-addtabs li:hover > .close-tab {
+  display: block;
+}
+
+.tab-addtabs .tab-pane {
+  height: 100%;
+  width: 100%;
+}
+.rightMenu {
+    position: absolute;
+    width: 150px;
+    display: none;
+    z-index:999999;
+}
+</style>
+
+      <!-- 右侧导航菜单 -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- 消息:在dropdown.less风格可以找到-->
+          <li class="dropdown messages-menu">
+            <!-- 菜单切换按钮 -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">4</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有4个新消息</li>
+              <li>
+                <!-- 消息列表 -->
+                <ul class="menu">
+                  <li><!-- 消息开始 -->
+                    <a href="#">
+                      <div class="pull-left">
+                        <img src="__STATIC__/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        Support Team
+                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                      </h4>
+                      <p>Why not buy a new awesome theme?</p>
+                    </a>
+                  </li>
+                  <!-- 消息结束 -->
+                </ul>
+                <!-- /.消息列表 -->
+              </li>
+              <li class="footer"><a href="#">查看所有消息</a></li>
+            </ul>
+          </li>
+          <!-- /.菜单切换按钮 -->
+
+          <!-- 通知菜单 -->
+          <li class="dropdown notifications-menu">
+            <!-- 菜单切换按钮 -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">10</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有10通知</li>
+              <li>
+                <!-- 通知列表 -->
+                <ul class="menu">
+                  <li><!-- 开始通知 -->
+                    <a href="#">
+                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    </a>
+                  </li>
+                  <!-- 通知结束 -->
+                </ul>
+              </li>
+              <li class="footer"><a href="#">查看所有</a></li>
+            </ul>
+          </li>
+          <!-- 任务菜单 -->
+          <li class="dropdown tasks-menu">
+            <!-- 菜单切换按钮 -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger">9</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有9个任务</li>
+              <li>
+                <!-- 任务列表 -->
+                <ul class="menu">
+                  <li><!-- 任务开始 -->
+                    <a href="#">
+                      <h3>
+                        Design some buttons
+                        <small class="pull-right">20%</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">20% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <!-- 任务结束 -->
+                </ul>
+              </li>
+              <li class="footer">
+                <a href="#">查看所有任务</a>
+              </li>
+            </ul>
+          </li>
+          <!-- 管理帐户菜单 -->
+          <li class="dropdown user user-menu">
+            <!-- 菜单切换按钮 -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="__STATIC__/images/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">Kocor</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="user-header">
+                <img src="__STATIC__/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <p>
+                  kocor - PHP工程师
+                  <small>只为自己开发框架</small>
+                </p>
+              </li>
+              <!-- 菜单主体 -->
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <a href="#">系统首页</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">会员管理</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">系统设置</a>
+                  </div>
+                </div>
+                <!-- /.菜单主体 -->
+              </li>
+              <!-- 菜单尾部-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">管理员管理</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/admin/index/loginout" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- 控制栏切换按钮 -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+</header>
