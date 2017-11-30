@@ -3,6 +3,7 @@
 namespace app\admin\model;
 use think\helper\Str;
 use think\Model;
+use think\Session;
 
 class Admin extends Model
 {
@@ -33,12 +34,17 @@ class Admin extends Model
         return Str::random(32);
     }
 
-
     //获取密码加密串
     public function getPasswordMd5Str($value,$salt='')
     {
         return md5($value.$salt);
     }
+
+    //获取登录SESSION信息
+    public function getAdminLoginInfo(){
+        return Session::get('admin');
+    }
+
 
 
 

@@ -8,9 +8,17 @@ use think\Validate;
 use think\Controller;
 use app\admin\model\Login;
 use app\admin\validate\Login as validateLogin;
+use app\admin\controller\Backend;
 
-class Index extends Controller
+class Index extends Backend
 {
+
+	//无需登录方法
+	protected $noNeedLogin = ['login'];
+
+	//无需鉴权方法
+	protected $noNeedAuth = ['index','loginout'];
+
 	/**
 	 *  初始化
 	 */
@@ -27,6 +35,16 @@ class Index extends Controller
 	 *  后台系统主页
 	 */
 	public function index(){
+
+
+		$this->view->engine->layout('layout/layout');
+
+
+
+
+
+
+
 
 		return $this->fetch('');
 
