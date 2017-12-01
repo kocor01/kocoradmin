@@ -14,7 +14,7 @@ class Index extends Backend
 {
 
 	//无需登录方法
-	protected $noNeedLogin = ['login'];
+	protected $noNeedLogin = ['login','nopermissions'];
 
 	//无需鉴权方法
 	protected $noNeedAuth = ['index','loginout'];
@@ -38,13 +38,6 @@ class Index extends Backend
 
 
 		$this->view->engine->layout('layout/layout');
-
-
-
-
-
-
-
 
 		return $this->fetch('');
 
@@ -101,6 +94,16 @@ class Index extends Backend
 
 		$this->success("注销成功",'admin/index/login');
 	}
+
+
+	/**
+	 *  没有权限页面
+	 */
+	public function nopermissions(){
+		return $this->fetch('');
+	}
+
+
 
 }
 

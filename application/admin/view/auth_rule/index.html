@@ -5,7 +5,7 @@
         <a href="javascript:;" class="btn btn-danger" id="btn_del"><i class="fa fa-trash"></i> 删除</a>                        
     </div>
 
-    <table id="tb_departments" data-show-export="true" data-url-name="admin"></table>
+    <table id="tb_departments" data-show-export="true" data-url-name="auth_rule"></table>
 </div>
 
 <script>
@@ -21,60 +21,43 @@ var TableInit = function () {
         $('#tb_departments').bootstrapTable({
             url: '/admin/'+urlName+'/index',         //请求后台的URL（*）
             method: 'post',                      //请求方式（*）
-            undefinedText: "-",    //当数据为 undefined 时显示的字符
             striped: true,    //设置为 true 会有隔行变色效果
             sortName: 'id',    //定义排序列,通过url方式获取数据填写字段名，否则填写下标
             sortOrder: "desc",    //定义排序方式 'asc' 或者 'desc'
             cache: false,    //设置为 false 禁用 AJAX 数据缓存
-            contentType: "application/json",    //发送到服务器的数据编码类型
             dataType: "json",    //服务器返回的数据类型
             queryParams: oTableInit.queryParams,    //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果 queryParamsType = 'limit' ,返回参数必须包含limit, offset, search, sort, order 否则, 需要包含: pageSize, pageNumber, searchText, sortName, sortOrder. 返回false将会终止请求
-            queryParamsType: "limit",    //设置为 'limit' 则会发送符合 RESTFul 格式的参数.
             pagination: true,    //设置为 true 会在表格底部显示分页条
             paginationLoop: false,    //设置为 true 启用分页条无限循环的功能。
-            onlyInfoPagination: false,    //设置为 true 只显示总数据数，而不显示分页按钮。需要 pagination='True'
             sidePagination: "server",    //设置在哪里进行分页，可选值为 'client' 或者 'server'。设置 'server'时，必须设置 服务器数据地址（url）或者重写ajax方法
             pageNumber: 1,    //如果设置了分页，首页页码
             pageSize: 6,    //如果设置了分页，页面数据条数
             pageList: [10, 25, 50, 100],    //如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
-            selectItemName: "btSelectItem",    //radio or checkbox 的字段名
-            smartDisplay: true,    //设置为 true可以在分页和卡片视图快速切换
             search: true,    //是否启用搜索框
             searchOnEnterKey: true,    //设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
-            strictSearch: true,    //设置为 true启用 全匹配搜索，否则为模糊搜索
-            //searchText: "请输入搜索关键字",    //定义排序列
-            trimOnSearch: false,    //设置为 true 将允许空字符搜索
             showColumns: true,    //是否显示 内容列下拉框
             showRefresh: true,    //是否显示 刷新按钮
             showToggle: true,    //是否显示 切换试图（table/card）按钮
             showPaginationSwitch: true,    //是否显示 数据条数选择框
             idField: "id",    //指定主键列
             uniqueId: "ID",    //为每一行指定唯一的标识符
-            detailView: false,    //设置为 true 可以显示详细页面模式。
-            cardView: false,    //设置为 true将显示card视图，适用于移动设备。否则为table试图，适用于pc
             paginationPreText: "上一页",    //指定分页条中上一页按钮的图标或文字
             paginationNextText: "下一页",    //指定分页条中下一页按钮的图标或文字
             clickToSelect: true,    //设置true 将在点击行时，自动选择rediobox 和 checkbox
-            singleSelect: false,    //设置True 将禁止多选
             toolbar: "#toolbar",    //工具按钮用哪个容器
-            checkboxHeader: true,    //设置false 将在列头隐藏check-all checkbox .
             maintainSelected: true,    //设置为 true 在点击分页按钮或搜索按钮时，将记住checkbox的选择项
-            sortable: true,    //设置为false 将禁止所有列的排序
-            silentSort: false,    //设置为 false 将在点击分页按钮时，自动记住排序项。仅在 sidePagination设置为 server时生效.
 
             //  列配置项,
             columns: [
                 {checkbox: true}, 
                 {field:'id',title:'ID',titleTooltip:"就是标题提示啦"}, 
-                {field:'user_name',title:'用户名'}, 
-                {field:'nick_name', title:'昵称'},
-                {field:'auth_group', title:'权限组'},
-                {field:'email', title:'邮箱'},
-                {field:'mobile', title:'手机'},
-                {field:'last_login_time', title:'最后登录时间'},
+                {field:'title',title:'标题'}, 
+                {field:'name',title:'规则名称'}, 
+                {field:'condition',title:'规则条件'}, 
+                {field:'icon',title:'图标'}, 
+                {field:'weigh',title:'权重'}, 
+                {field:'is_menu', title:'菜单', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
                 {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
-                {field:'update_time', title:'更新时间', sortable:true},
-                {field:'create_time', title:'注册时间', sortable:true},
                 {
                     field: 'operate',
                     title: '操作',

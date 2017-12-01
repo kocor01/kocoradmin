@@ -30,28 +30,34 @@ class Backend extends Controller
 		$controller = strtolower($request->controller());
 		$action = $request->action();
 
+		//以下绑定信息可以在继承该类时重新指定
+        $this->model = model($request->controller());              //绑定模型
+        $this->validate = validate($request->controller());        //绑定验证器
+        $this->serachName = 'title';            //绑定搜索字段
+
         $login = model('Login');
 
         //检测是否需要验证登录
-        if($login->isNeedLogin($action,$this->noNeedLogin)){
-	        //判断是否登录
-	        if(!$login->isLogin()){
-	        	$this->success("你还未登录",'admin/index/login');
-	        }
+   //      if($login->isNeedLogin($action,$this->noNeedLogin)){
+	  //       //判断是否登录
+	  //       if(!$login->isLogin()){
+	  //       	$this->success("你还未登录",'admin/index/login');
+	  //       }
 	        
-	        //获取登录管理员信息
-	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
+	  //       //获取登录管理员信息
+	  //       $this->adminInfo = model('Admin')->getAdminLoginInfo();
 
-			$this->auth = new Auth;
-	        //检测是否需要验证权限
-	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
-		        //权限控制
-				$path = $controller.'/'.$action;
-				if(!$this->auth->check($path,$this->adminInfo['id'])){
-					$this->error("你没有权限！");
-				}
-	        }
-        }
+			// $this->auth = new Auth;
+	  //       //检测是否需要验证权限
+	  //       if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
+		 //        //权限控制
+			// 	$path = $controller.'/'.$action;
+			// 	if(!$this->auth->check($path,$this->adminInfo['id'])){
+			// 		$this->error("你没有权限！",'admin/index/nopermissions');
+			// 	}
+	  //       }
+   //      }
+
 
     }
 
@@ -62,19 +68,16 @@ class Backend extends Controller
 	public function index(){
 
 		if(request()->isAjax()){
-
-			$offset = intval(input('offset'));
-			$limit = intval(input('limit'));
-			$sort = addslashes(input('sort'));
-			$order = addslashes(input('order'));
-			$search = addslashes(input('search'));
+			
+			//列表请求参数
+			$params = $this->get_lists_params();
 
 			$where = [];
-			if(!empty($search)){
-				$where[$this->serachName] = ['like','%'.$search.'%'];
+			if(!empty($params['search'])){
+				$where[$this->serachName] = ['like','%'.$params['search'].'%'];
 			}
 
-			$list = $this->model->where($where)->order($sort." ".$order)->limit($offset.','.$limit)->select();
+			$list = $this->model->where($where)->order($params['sort']." ".$params['order'])->limit($params['offset'].','.$params['limit'])->select();
 			$total = $this->model->where($where)->count();
 
             $result = array("total" => $total, "rows" => $list);
@@ -175,5 +178,21 @@ class Backend extends Controller
 		}
 		
 	}
+
+
+	/**
+	 *  列表请求参数
+	 */
+	protected function get_lists_params(){
+
+		$params['offset'] = intval(input('offset'));
+		$params['limit'] = intval(input('limit'));
+		$params['sort'] = addslashes(input('sort'));
+		$params['order'] = addslashes(input('order'));
+		$params['search'] = addslashes(input('search'));
+
+		return $params;
+	}
+
 
 }

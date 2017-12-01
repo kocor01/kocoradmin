@@ -11,16 +11,19 @@ class Admin extends Model
 	protected $autoWriteTimestamp = true;
 
 
-	//获取器:Status
-	public function getStatusAttr($value)
-    {
+    //获取器:Status
+    public function getStatusAttr($value){
         $status = [0=>'禁用',1=>'正常'];
         return $status[$value];
     }
 
+    //获取器:last_login_time
+    public function getLastLoginTimeAttr($value){
+        return $value?date('Y-m-d H:i:s',$value):'-';
+    }
+
     //修改器:Password
-    public function setPasswordAttr($value,$data)
-    {
+    public function setPasswordAttr($value,$data){
         return md5($value.$data['salt']);
     }
 
@@ -45,6 +48,11 @@ class Admin extends Model
         return Session::get('admin');
     }
 
+    //关联auth_group
+    public function group_access()
+    {
+        return $this->hasMany('auth_group_access','uid')->field('uid,group_id');
+    }
 
 
 

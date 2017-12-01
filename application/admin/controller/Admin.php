@@ -12,11 +12,38 @@ class Admin extends Backend
     public function _initialize()
     {
         parent::_initialize();
-        $this->request->filter(['strip_tags']);     //设置过滤方法
-        $this->model = model('Admin');              //绑定模型
-        $this->validate = validate('Admin');        //绑定验证器
         $this->serachName = 'user_name';            //搜索字段
     }
+
+
+	/**
+	 *  列表方法
+	 */
+	public function index(){
+
+		//$Admin = model('Admin')->get(6);
+		//dump($Admin->group_access()->select());exit;
+
+		if(request()->isAjax()){
+			
+			//列表请求参数
+			$params = $this->get_lists_params();
+
+			$where = [];
+			if(!empty($params['search'])){
+				$where[$this->serachName] = ['like','%'.$params['search'].'%'];
+			}
+
+			$list = $this->model->where($where)->order($params['sort']." ".$params['order'])->limit($params['offset'].','.$params['limit'])->select();
+			$total = $this->model->where($where)->count();
+
+            $result = array("total" => $total, "rows" => $list);
+		
+			return $result;
+		}
+
+		return $this->fetch('');
+	}
 
 
 	/**
