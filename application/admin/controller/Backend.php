@@ -20,8 +20,18 @@ class Backend extends Controller
 	//登录管理员信息
 	protected $adminInfo = [];
 
+	//绑定模型
+	protected $model = '';
+
+	//绑定验证器
+	protected $validate = '';
+
+	//绑定搜索字段
+	protected $serachName = '';
+
     public function _initialize()
     {
+
         parent::_initialize();
         $this->request->filter(['strip_tags']);     //设置过滤方法
 
@@ -30,11 +40,20 @@ class Backend extends Controller
 		$controller = strtolower($request->controller());
 		$action = $request->action();
 
-		//以下绑定信息可以在继承该类时重新指定
-        $this->model = model($request->controller());              //绑定模型
-        $this->validate = validate($request->controller());        //绑定验证器
-        $this->serachName = 'title';            //绑定搜索字段
 
+		//以下绑定信息可以在继承该类时重新指定
+		if(!$this->model){
+			$this->model = model($request->controller());              //绑定模型
+		}
+		if(!$this->validate){
+			$this->validate = validate($request->controller());        //绑定验证器
+		}
+		if(!$this->serachName){
+			$this->serachName = 'title';            //绑定搜索字段
+		}
+        
+        
+        
         $login = model('Login');
 
         //检测是否需要验证登录

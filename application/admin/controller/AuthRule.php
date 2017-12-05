@@ -34,11 +34,11 @@ class AuthRule extends Backend
 6 => array('id'=>'6','parentid'=>3,'name'=>'三级栏目一'),
 7 => array('id'=>'7','parentid'=>3,'name'=>'三级栏目二')
 );
-		$Tree->init($data,$pid_str = 'parentid');
+		$Tree->init($data);
 
-		echo $Tree->get_tree_multi(1,"<option value=\$id \$selected>\$spacer\$name</option>");
+		//echo $Tree->get_tree_multi(1,"<option value=\$id \$selected>\$spacer\$name</option>");
 
-		//print_r($Tree->get_pos(4,$data));
+		print_r($Tree->creat_sub_json(0));
 
 		exit;
 
