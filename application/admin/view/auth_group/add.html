@@ -1,0 +1,172 @@
+<!-- 2 load the theme CSS file -->
+<link rel="stylesheet" href="__STATIC__/libs/jstree/dist/themes/default/style.min.css" />
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <input type="hidden" id="rule" name="row[rule]" value="">
+    <div class="form-group">
+		<label class="control-label col-xs-12 col-sm-2">父级：</label>
+        <div class="col-xs-12 col-sm-8">
+		<select class="form-control">
+			<option value="0">无</option>
+			{$tree_list}
+		</select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-title" class="control-label col-xs-12 col-sm-2">名称：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-name" class="control-label col-xs-12 col-sm-2">权限：</label>
+        <div class="col-xs-12 col-sm-8">
+        	<span class="text-muted"><input type="checkbox" name="" id="checkall"> <label for="checkall"><small>选中全部</small></label></span>
+        	<span class="text-muted"><input type="checkbox" name="" id="expandall"> <label for="expandall"><small>展开全部</small></label></span>
+        	<span class="text-muted"> <input type="text" id="jstree_key" value=""  placeholder="搜索"></span>
+            <div id="jstree">
+
+			</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-remark" class="control-label col-xs-12 col-sm-2">备注：</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" id="remark" name="row[remark]"></textarea>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">确认</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+        </div>
+    </div>
+</form>
+
+
+<!-- 5 include the minified jstree source -->
+<script src="__STATIC__/libs/jstree/dist/jstree.min.js"></script>
+<script>
+	var ajaxTreeSample = function() {
+
+        $("#jstree").jstree({
+            "core" : {
+                "themes" : {
+                    "responsive": false
+                }, 
+                // so that create works
+                "check_callback" : true,
+                'data' : function (obj, callback) {
+                    var jsonstr="[]";
+                    var jsonarray = eval('('+jsonstr+')');
+                    $.ajax({
+                        type: "POST",
+                        url:"/admin/auth_rule/str",
+                        dataType:"json",
+                        async: false,
+                        success:function(result) {
+                            var arrays= result;
+                            for(var i=0 ; i<arrays.length; i++){
+                                var arr = {
+                                    "id":arrays[i].id,
+                                    "parent":arrays[i].pid=="0"?"#":arrays[i].pid,
+                                    "text":arrays[i].title,
+                                    "state":{
+                                    	"selected":arrays[i].is_selected=="1"?true:false,
+                                    	"disabled":false,
+                                    	"opened":true,
+
+                                    }
+                                }
+                                jsonarray.push(arr);
+								//console.log(arr);
+                            }
+                        }
+
+                    });
+                    callback.call(this, jsonarray);
+                }
+            },
+            "types" : {
+                "default" : {
+                    "icon" : "fa fa-folder icon-state-warning icon-lg"
+                },
+                "file" : {
+                    "icon" : "fa fa-file icon-state-warning icon-lg"
+                }
+            },
+            "plugins" : [ "dnd",  "types", "checkbox" ,"search"]
+        });  
+
+    }
+    ajaxTreeSample();
+
+
+    //获取jstree selected选中的ID
+    function getCheckboxTreeSelNode(){  
+		var ids = Array();  
+		jQuery("#jstree").find("li").each(function(){ 
+			var liid = jQuery(this).attr('id');  
+			if(jQuery("#"+liid+">a").hasClass("jstree-clicked") || jQuery("#"+liid+">a>i").hasClass("jstree-undetermined")){  
+				ids.push(liid);  
+			}  
+		}); 
+		$("#rule").val(ids);
+		return true;  
+	}  
+
+	//jstree 搜索
+	var to = false;
+	$('#jstree_key').keyup(function () {
+		getCheckboxTreeSelNode();
+		if(to) { clearTimeout(to); }
+		to = setTimeout(function () {
+			var v = $('#jstree_key').val();
+			$('#jstree').jstree(true).search(v);
+		}, 250);
+	});
+
+    //全选和展开
+    $(document).on("click", "#checkall", function () {
+        $("#jstree").jstree($(this).prop("checked") ? "check_all" : "uncheck_all");
+    });
+    $(document).on("click", "#expandall", function () {
+        $("#jstree").jstree($(this).prop("checked") ? "open_all" : "close_all");
+    });
+
+
+    //父级变更级别后需要重建节点树
+    $(document).on("change", "select[name='row[pid]']", function () {
+        var pid = $(this).data("pid");
+        var id = $(this).data("id");
+        if ($(this).val() == id) {
+            $("option[value='" + pid + "']", this).prop("selected", true).change();
+            Backend.api.toastr.error(__('Can not change the parent to self'));
+            return false;
+        }
+        $.ajax({
+            url: "auth/group/roletree",
+            type: 'post',
+            dataType: 'json',
+            data: {id: id, pid: $(this).val()},
+            success: function (ret) {
+                if (ret.hasOwnProperty("code")) {
+                    var data = ret.hasOwnProperty("data") && ret.data != "" ? ret.data : "";
+                    if (ret.code === 1) {
+                        //销毁已有的节点树
+                        $("#treeview").jstree("destroy");
+                        Controller.api.rendertree(data);
+                    } else {
+                        Backend.api.toastr.error(ret.data);
+                    }
+                }
+            }, error: function (e) {
+                Backend.api.toastr.error(e.message);
+            }
+        });
+    });
+
+
+  </script>

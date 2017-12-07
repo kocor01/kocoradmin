@@ -1,5 +1,15 @@
 <?php  
+
+// +----------------------------------------------------------------------
+// | KocorAdmin 只为自己开发框架
+// +----------------------------------------------------------------------
+// | Copyright © 2017 KOCOR. 版权所有.
+// +----------------------------------------------------------------------
+// | Author: Kocor <502117269@qq.com>
+// +----------------------------------------------------------------------
+
 namespace kocor;
+
 /** 
 * 通用的树型类，可以生成任何树型结构 
 */  
@@ -15,7 +25,7 @@ class Tree {
     * @var array 
     */  
     public $icon = array('│','├','└');  
-    public $nbsp = " ";  
+    public $nbsp = "&nbsp;&nbsp;";  
     public $pid_str = "";  
     public $name_str = ""; 
     public $str = "";  
@@ -24,6 +34,7 @@ class Tree {
     * @access private 
     */  
     public $ret = '';  
+    public $newarr = [];  
   
     /** 
     * 构造函数，初始化类 
@@ -38,7 +49,7 @@ class Tree {
     *      7 => array('id'=>'7','pid'=>3,'name'=>'三级栏目二') 
     *      ) 
     */  
-    public function init($arr=array(),$pid_str='parentid',$name_str='name'){  
+    public function init($arr=array(),$pid_str='pid',$name_str='title'){  
        $this->arr = $arr;  
        $this->pid_str = $pid_str;  
        $this->name_str = $name_str;  
@@ -112,22 +123,25 @@ class Tree {
         $number=1;  
         $child = $this->get_child($myid);  
         if(is_array($child)){  
-            $total = count($child);  
-            foreach($child as $id=>$value){  
+            $total = count($child); 
+            //print_r($child);
+            foreach($child as $value){  
                 $j=$k='';  
                 if($number==$total){  
                     $j .= $this->icon[2];  
                 }else{  
                     $j .= $this->icon[1];  
-                    $k = $adds ? $this->icon[0] : '';  
+                    //$k = $adds ? $this->icon[0] : '';  
+                    $k = $this->icon[0];  
                 }  
 
                 @extract($value); 
                 $pid_str = $this->pid_str;
                 if($$pid_str == 0 && $str_group){
-                    $spacer = $str_group ? $str_group.$j : ''; 
+                    $spacer = $str_group.$j;
                 }else{
-                    $spacer = $adds ? $adds.$j : '';   
+                    //$spacer = $adds ? $adds.$j : '';   
+                    $spacer = $adds.$j;   
                 }
                 $selected = $id==$sid ? 'selected' : '';  
                 eval("\$nstr = \"$str\";");  
@@ -228,7 +242,7 @@ class Tree {
         foreach($child as $id=>$a) {  
   
             @extract($a);  
-            if($showlevel > 0 && $showlevel == $currentlevel && $this->get_child($id)) $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01  
+            if($showlevel > 0 && $showlevel == $currentlevel && $this->get_child($id)) $folder = 'hasChildren'; //如设置显示层级模式
             $floder_status = isset($folder) ? ' class="'.$folder.'"' : '';        
             $this->str .= $recursion ? '<ul><li'.$floder_status.' id=\''.$id.'\'>' : '<li'.$floder_status.' id=\''.$id.'\'>';  
             $recursion = FALSE;  
@@ -277,9 +291,76 @@ class Tree {
             }  
             $n++;  
         }  
-        print_r($data);exit;
         return json_encode($data);        
+    } 
+      
+    /** 
+     * 获取下级json数据
+     * Enter description here ... 
+     * @param unknown_type $myid 
+     */   
+    public function get_tree_json($myid, $adds = '', $str_group = ''){  
+        $number=1;  
+        $child = $this->get_child($myid);
+
+        if(is_array($child)){  
+            $total = count($child);  
+            foreach($child as $value){
+                $j=$k='';  
+                if($number==$total){  
+                    $j .= $this->icon[2];  
+                }else{  
+                    $j .= $this->icon[1];  
+                    $k = $adds ? $this->icon[0] : '';  
+                }  
+
+            
+                $pid_str = $this->pid_str;
+                if($value[$this->pid_str] == 0 && $str_group){
+                    $spacer = $str_group.$j; 
+                }else{
+                    $spacer = $adds ? $adds.$j : '';   
+                }
+
+                $child = $this->get_child($value['id']);
+                if(is_array($child)){  
+                    $value['has_child'] = 1;
+                }else{
+                    $value['has_child'] = 0;
+                }
+                 
+
+                $value[$this->name_str] = $spacer.$value[$this->name_str];
+                $nbsp = $this->nbsp; 
+                $this->newarr[] = $value;
+
+                //print_r($value);
+                $this->get_tree_json($value['id'], $adds.$k.$nbsp,$str_group);  
+                $number++;  
+            }  
+        }  
+        return $this->newarr;  
+    }
+      
+    /** 
+     * 获取jstree所需格式数据
+     * Enter description here ... 
+     * @param unknown_type $myid 
+     */   
+    public function get_treeview_arr($sid){  
+        $id_arr = explode(',', $sid);
+        if(is_array($this->arr)){  
+            foreach($this->arr as $value){ 
+                $value['is_selected'] = in_array($value['id'], $id_arr)?1:0;
+                $this->newarr[] = $value;
+            }  
+        }  
+        return $this->newarr;  
     }  
+
+
+
+
     private function have($list,$item){  
         return(strpos(',,'.$list.',',','.$item.','));  
     }  

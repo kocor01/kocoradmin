@@ -1,3 +1,11 @@
+// +----------------------------------------------------------------------
+// | KocorAdmin 只为自己开发框架
+// +----------------------------------------------------------------------
+// | Copyright © 2017 KOCOR. 版权所有.
+// +----------------------------------------------------------------------
+// | Author: Kocor <502117269@qq.com>
+// +----------------------------------------------------------------------
+
 $(function () {
 
     //1.初始化Table
@@ -138,3 +146,51 @@ function getDefaultStatus(value, row, index) {
         return '<span class="label label-danger">禁止</span>'
     };
 }
+
+//Status显示
+function getWhetherStatus(value, row, index) {
+    if(value ==1 || value =='正常'){
+        return '<span class="label label-info">是</span>'
+    }else{
+        return '<span class="label label-default">否</span>'
+    };
+}
+
+
+
+var iconlist = [];
+$(document).on('click', ".btn-search-icon", function () {
+    if (iconlist.length == 0) {
+        $.get("/static/libs/font-awesome/less/variables.less", function (ret) {
+
+            var exp = /fa-var-(.*):/ig;
+            var result;
+            while ((result = exp.exec(ret)) != null) {
+                iconlist.push(result[1]);
+            }
+            layer.open({
+                type: 1,
+                area: ['460px', '300px'], //宽高
+                content: template('chooseicontpl', {iconlist: iconlist})
+            });
+        });
+    } else {
+        layer.open({
+            type: 1,
+            area: ['460px', '300px'], //宽高
+            content: template('chooseicontpl', {iconlist: iconlist})
+        });
+    }
+});
+$(document).on('click', '#chooseicon ul li', function () {
+    $("input[name='row[icon]']").val('fa fa-' + $(this).data("font"));
+    layer.closeAll();
+});
+$(document).on('keyup', 'input.js-icon-search', function () {
+    $("#chooseicon ul li").show();
+    if ($(this).val() != '') {
+        $("#chooseicon ul li:not([data-font*='" + $(this).val() + "'])").hide();
+    }
+});
+
+
