@@ -134,30 +134,47 @@ window.operateEvents = {
 //获取多选框ID
 function getIdSelections() {
     return $.map($("#tb_departments").bootstrapTable('getSelections'), function (row) {
-        return row.id
+        return row.id;
     });
 }
+
 
 //Status显示
 function getDefaultStatus(value, row, index) {
     if(value ==1 || value =='正常'){
-        return '<span class="label label-success">正常</span>'
+        return '<span class="label label-success">正常</span>';
     }else{
-        return '<span class="label label-danger">禁止</span>'
+        return '<span class="label label-danger">禁止</span>';
     };
 }
 
 //Status显示
 function getWhetherStatus(value, row, index) {
     if(value ==1 || value =='正常'){
-        return '<span class="label label-info">是</span>'
+        return '<span class="label label-info">是</span>';
     }else{
-        return '<span class="label label-default">否</span>'
+        return '<span class="label label-default">否</span>';
     };
+}
+
+//Icon显示
+function getIconShow(value, row, index) {
+    return '<i class="'+value+'"></i>';
+}
+
+//Icon显示
+function getLabels(value, row, index) {
+    var lavelArr = new Array();
+    var arr=value.split(',');
+    for(var i=0;i<arr.length;i++){
+        lavelArr.push('<span class="label label-primary">'+arr[i]+'</span> ');
+    }
+    return lavelArr.join("");
 }
 
 
 
+//图标选择页面
 var iconlist = [];
 $(document).on('click', ".btn-search-icon", function () {
     if (iconlist.length == 0) {
@@ -182,10 +199,12 @@ $(document).on('click', ".btn-search-icon", function () {
         });
     }
 });
+//图标选择
 $(document).on('click', '#chooseicon ul li', function () {
     $("input[name='row[icon]']").val('fa fa-' + $(this).data("font"));
     layer.closeAll();
 });
+//打开图标选择页面
 $(document).on('keyup', 'input.js-icon-search', function () {
     $("#chooseicon ul li").show();
     if ($(this).val() != '') {

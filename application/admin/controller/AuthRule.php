@@ -99,6 +99,7 @@ class AuthRule extends Backend
 			}
 		}
 
+		//规则节点树
 		$where['status'] = 1;
 		$list = $this->model->where($where)->select()->toArray();
 		$this->tree->init($list);

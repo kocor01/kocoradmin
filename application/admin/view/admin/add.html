@@ -1,4 +1,12 @@
 <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label for="c-user_name" class="control-label col-xs-12 col-sm-2">所属权限组：</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="select2" multiple="" style="width: 100%;" name=row[group][]>
+                {$tree_list}
+            </select>
+        </div>
+    </div>
 
     <div class="form-group">
         <label for="c-user_name" class="control-label col-xs-12 col-sm-2">用户名：</label>
@@ -15,13 +23,13 @@
     <div class="form-group">
         <label for="c-password" class="control-label col-xs-12 col-sm-2">密码:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-password" data-rule="required" class="form-control" name="row[password]" type="text" value="">
+            <input id="c-password" data-rule="required" class="form-control" placeholder="不修改请留空" name="row[password]" type="text" value="">
         </div>
     </div>
     <div class="form-group">
         <label for="c-repassword" class="control-label col-xs-12 col-sm-2">确认密码:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-repassword" data-rule="required" class="form-control" name="row[repassword]" type="text" value="">
+            <input id="c-repassword" data-rule="required" class="form-control" placeholder="不修改请留空" name="row[repassword]" type="text" value="">
         </div>
     </div>
     <div class="form-group">
@@ -53,3 +61,12 @@
         </div>
     </div>
 </form>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2({
+        placeholder: "选择权限组"
+    });
+  })
+</script>

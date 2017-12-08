@@ -88,6 +88,44 @@ class Tree {
             }  
         }  
         return $newarr ? $newarr : false;  
+    }
+  
+    /** 
+    * 得到所有子级数组 
+    * @param int 
+    * @return array 
+    */  
+    public function get_all_child($myid,&$newarr=[]){  
+        $child = $this->get_child($myid);  
+        if(is_array($child)){ 
+            foreach($child as $key=>$value){   
+                $newarr['list'][$key] = $value;
+                $this->get_all_child($value['id'],&$newarr['list'][$key]);
+            }
+        }
+        print_r($newarr);exit;
+
+        return $newarr;
+    } 
+  
+    /** 
+    * 得到所有子级数组 
+    * @param int 
+    * @return array 
+    */  
+    public function get_all_child_id($myid){  
+        $child = $this->get_child($myid);  
+        if(is_array($child)){ 
+            foreach($child as $key=>$value){   
+                $this->newarr[] = $value['id'];
+                print_r($child);
+                echo $value['id'];exit;
+                $this->get_all_child_id($value['id']);
+            }
+        }
+        print_r($newarr);exit;
+
+        return $newarr;
     }  
   
     /** 
@@ -347,7 +385,7 @@ class Tree {
      * Enter description here ... 
      * @param unknown_type $myid 
      */   
-    public function get_treeview_arr($sid){  
+    public function get_treeview_arr($sid = ''){  
         $id_arr = explode(',', $sid);
         if(is_array($this->arr)){  
             foreach($this->arr as $value){ 

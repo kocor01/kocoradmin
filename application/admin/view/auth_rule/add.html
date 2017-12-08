@@ -12,7 +12,7 @@
     <div class="form-group">
 		<label class="control-label col-xs-12 col-sm-2">父级：</label>
         <div class="col-xs-12 col-sm-8">
-		<select class="form-control">
+		<select class="form-control" name="row[pid]">
 			<option value="0">无</option>
 			{$tree_list}
 		</select>
@@ -40,7 +40,7 @@
         <label for="icon" class="control-label col-xs-12 col-sm-2">图标：</label>
         <div class="col-xs-12 col-sm-8">
             <div class="input-group input-groupp-md">
-                <input type="text" class="form-control" id="icon" name="row[icon]" value="fa fa-dot">
+                <input type="text" class="form-control" id="icon" name="row[icon]" value="fa fa-list">
                 <a href="javascript:;" class="btn-search-icon input-group-addon">搜索图标</a>
             </div>
         </div>
