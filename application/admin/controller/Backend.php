@@ -69,34 +69,31 @@ class Backend extends Controller
         
         $login = model('Login');
 
-        //检测是否需要验证登录
-        if($login->isNeedLogin($action,$this->noNeedLogin)){
-	        //判断是否登录
-	        if(!$login->isLogin()){
-	        	$this->success("你还未登录",'admin/index/login');
-	        }
+   //      //检测是否需要验证登录
+   //      if($login->isNeedLogin($action,$this->noNeedLogin)){
+	  //       //判断是否登录
+	  //       if(!$login->isLogin()){
+	  //       	$this->success("你还未登录",'admin/index/login');
+	  //       }
 	        
-	        //获取登录管理员信息
-	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
+	  //       //获取登录管理员信息
+	  //       $this->adminInfo = model('Admin')->getAdminLoginInfo();
 
-			$this->auth = new Auth;
-	        //检测是否需要验证权限
-	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
-		        //权限控制
-				if(!$this->auth->check($path,$this->adminInfo['id'])){
-					$this->error("你没有权限！",'admin/index/nopermissions');
-				}
-	        }
-        }
+			// $this->auth = new Auth;
+	  //       //检测是否需要验证权限
+	  //       if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
+		 //        //权限控制
+			// 	if(!$this->auth->check($path,$this->adminInfo['id'])){
+			// 		$this->error("你没有权限！",'admin/index/nopermissions');
+			// 	}
+	  //       }
+   //      }
+
+
 
         //登录信息
         $adminInfo = Session::get('admin');
         $this->view->assign("adminInfo", $adminInfo);
-
-        //左侧菜单
-		$list = $this->model->select()->toArray();
-		$menu_tree = getTree($list,0);
-        $this->view->assign("menu_tree", $menu_tree);
     }
 
     

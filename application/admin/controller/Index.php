@@ -15,6 +15,7 @@ use think\Request;
 use think\Validate;
 use think\Controller;
 use app\admin\model\Login;
+use kocor\Tree;
 use app\admin\validate\Login as validateLogin;
 use app\admin\controller\Backend;
 
@@ -34,6 +35,7 @@ class Index extends Backend
     {
         $this->model = model('Login');              //绑定模型
         $this->validate = validate('Login');        //绑定验证器
+		$this->tree = new Tree;
         parent::_initialize();
     }
 
@@ -43,8 +45,18 @@ class Index extends Backend
 	 */
 	public function index(){
 
-
 		$this->view->engine->layout('layout/layout');
+
+
+        //左侧菜单
+		$auth_rule_list = model('auth_rule')->select()->toArray();
+		$this->tree->init($auth_rule_list);
+
+			echo $list = $this->tree->get_treeview(0);
+
+		exit;
+		echo $menu_tree = getTree2($auth_rule_list,0);exit;
+        $this->view->assign("menu_tree", $menu_tree);
 
 		return $this->fetch('');
 
