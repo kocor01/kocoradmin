@@ -23,7 +23,7 @@ class AuthGroup extends Backend
 	//protected $noNeedLogin = ['index'];
 
 	//无需鉴权方法
-	//protected $noNeedAuth = ['index'];
+	protected $noNeedAuth = ['get_rule_tree'];
 
 
     public function _initialize()
@@ -36,14 +36,6 @@ class AuthGroup extends Backend
 	 *  列表方法
 	 */
 	public function index(){
-		echo "asfsa";exit;
-		$list = $this->model->select()->toArray();
-		$this->tree->init($list);
-		$AuthGroupChind = $this->tree->get_all_child_id(0);
-		print_r($AuthGroupChind);
-		exit;
-
-
 
 		if(request()->isAjax()){
 			
@@ -74,7 +66,7 @@ class AuthGroup extends Backend
 
 
 	/**
-	 *  基础增加方法
+	 *  增加方法
 	 */
 	public function add(){
 
@@ -107,7 +99,7 @@ class AuthGroup extends Backend
 
 
 	/**
-	 *  基础编辑方法
+	 *  编辑方法
 	 */
 	public function edit(){
 
@@ -117,6 +109,11 @@ class AuthGroup extends Backend
 
 			$params = Request::instance()->post('row/a'); // 获取post变量
 
+
+			if($id == 1){
+				$this->error('不能编辑超级管理员权限');
+			}
+
 			if(!$this->validate->check($params)){
 			    $this->error($this->validate->getError());
 			}else{
@@ -124,10 +121,10 @@ class AuthGroup extends Backend
 				//权限组父级不能是自己及其下级
 				$list = $this->model->select()->toArray();
 				$this->tree->init($list);
-				$AuthGroupChind = $this->tree->get_child($id);
+				$AuthGroupChind = $this->tree->get_child_id($id,true);
 
-				if($id == $params['pid']){
-					$this->error('权限组父级不能是自己');
+				if(in_array($params['pid'], $AuthGroupChind)){
+					$this->error('权限组父级不能是自己及其下级');
 				}
 
 				$row->data($params,true);
@@ -153,6 +150,54 @@ class AuthGroup extends Backend
 	}
 
 
+	/**
+	 *  基础删除方法
+	 */
+	public function del($ids=''){
+		if($ids){
+
+			if(request()->isAjax()){
+
+				$pk = $this->model->getPk();
+				$list = $this->model->where($pk, 'in', $ids)->select();
+				$count = 0;
+				if($list){
+
+					//初始化规则树
+			        $tree_list = $this->model->select()->toArray();
+			        $this->tree->init($tree_list);
+
+					foreach ($list as $k => $v){
+
+						if($v['id'] == 1){
+							$this->error('不能删除超级管理员');
+						}
+						
+				        $child = $this->tree->get_child($v['id']);
+		                if(is_array($child)){ 
+		                    return ['status'=>0,'msg'=>'不能删除含有子级的权限组'];
+		                }
+
+		                $count += $v->delete();
+		            }
+					if ($count){
+		                return ['status'=>1,'msg'=>'删除成功'];
+		            }else{
+		                return ['status'=>0,'msg'=>'删除失败'];
+		            }
+				}else{
+					return ['status'=>0,'msg'=>'数据不存在'];
+				}
+			}else{
+				return ['status'=>0,'msg'=>'非法操作'];
+			}
+		}else{
+			return ['status'=>0,'msg'=>'请选择有效数据'];
+		}
+		
+	}
+
+
 	//获取角色权限树
 	public function get_rule_tree(){
 
@@ -160,6 +205,19 @@ class AuthGroup extends Backend
 
 			$id = Request::instance()->request('id/d');
 			$pid = Request::instance()->param('pid/d');
+	
+			//父级权限
+			$AuthRuleParent = $this->model->where(array('id'=>$pid))->find();
+
+			//读取父级角色权限
+			$where['status'] = 1;
+			if($AuthRuleParent['rules'] != '*'){
+				$where['id'] = ['in',$AuthRuleParent['rules']];
+			}
+			$list = model('AuthRule')->field('id,pid,title')->where($where)->select()->toArray();
+
+			//初始化权限树
+			$this->tree->init($list);
 
 			//已选择的权限
 			$rules_selected = '';
@@ -168,23 +226,12 @@ class AuthGroup extends Backend
 				$AuthRule = $this->model->where(array('id'=>$id))->find();
 				$rules_selected = $AuthRule->rules;
 			}
-	
-			//父级权限
-			$AuthRuleParent = $this->model->where(array('id'=>$pid))->find();
-
-			//读取父级角色权限
-			$where['status'] = 1;
-			$where['id'] = ['in',$AuthRuleParent['rules']];
-			$list = model('AuthRule')->field('id,pid,title')->where($where)->select()->toArray();
 
 			//获取jstree所需格式数据
-			$this->tree->init($list);
 			$tree_arr = $this->tree->get_treeview_arr($rules_selected);
     		return $tree_arr;
 		}
 		return $this->fetch('');
-
-
 	}
 
   

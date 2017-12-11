@@ -104,6 +104,11 @@ class Auth{
         if (!$this->_config['AUTH_ON'])
             return true;
         $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
+        //超级管理员
+        if(count($authList) == 1 && $authList[0] == '*'){
+            return true;
+        }
+        //print_r($authList);exit;
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -176,8 +181,13 @@ class Auth{
 
         //读取用户所属用户组
         $groups = $this->getGroups($uid);
+
         $ids = array();//保存用户所属用户组设置的所有权限规则id
         foreach ($groups as $g) {
+            //超级管理员
+            if($g['rules'] == '*'){
+                return ['*'];
+            }
             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
         }
         $ids = array_unique($ids);

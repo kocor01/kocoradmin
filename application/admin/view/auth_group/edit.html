@@ -21,9 +21,12 @@
     <div class="form-group">
         <label for="c-name" class="control-label col-xs-12 col-sm-2">权限：</label>
         <div class="col-xs-12 col-sm-8">
+            <div class="input-group input-groupp-md col-sm-6">
+                <input type="text" class="form-control" id="jstree_key"  value=""  placeholder="搜索">
+                <a href="javascript:;" class="btn-search-icon input-group-addon">搜索</a>
+            </div>
         	<span class="text-muted"><input type="checkbox" name="" id="checkall"> <label for="checkall"><small>选中全部</small></label></span>
         	<span class="text-muted"><input type="checkbox" name="" id="expandall"> <label for="expandall"><small>展开全部</small></label></span>
-        	<span class="text-muted"> <input type="text" id="jstree_key" value=""  placeholder="搜索"></span>
             <div id="jstree">
 
 			</div>
@@ -113,7 +116,7 @@
 		var ids = Array();  
 		jQuery("#jstree").find("li").each(function(){ 
 			var liid = jQuery(this).attr('id');  
-			if(jQuery("#"+liid+">a").hasClass("jstree-clicked") || jQuery("#"+liid+">a>i").hasClass("jstree-undetermined")){  
+            if(jQuery("#"+liid+">a").hasClass("jstree-clicked") || jQuery("#"+liid+">a>i").hasClass("jstree-undetermined")){  
 				ids.push(liid);  
 			}  
 		}); 

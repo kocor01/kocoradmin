@@ -90,6 +90,7 @@ var ButtonInit = function () {
     return oInit;
 };
 
+
 //bootstrap table 操作按钮
 function operateFormatter(value, row, index) {
     return [

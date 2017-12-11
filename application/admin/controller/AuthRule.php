@@ -32,19 +32,9 @@ class AuthRule extends Backend
 	public function index(){
 
 		
-
-		// $data = $this->model->select()->toArray();
-		// $Tree = new Tree;
-
-
-		// $Tree->init($data);
-
-		// echo $Tree->get_tree(0,"<option value=\$id \$selected>\$spacer\$name</option>",1);
-
-		// print_r($Tree->get_tree_json(0));
-
-		// exit;
-
+		$list = $this->model->select()->toArray();
+		$list = getTree($list,0);
+		print_r($list);exit;
 
 		
 

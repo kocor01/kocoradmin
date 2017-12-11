@@ -90,42 +90,28 @@ class Tree {
         return $newarr ? $newarr : false;  
     }
   
-    /** 
-    * 得到所有子级数组 
-    * @param int 
-    * @return array 
-    */  
-    public function get_all_child($myid,&$newarr=[]){  
-        $child = $this->get_child($myid);  
-        if(is_array($child)){ 
-            foreach($child as $key=>$value){   
-                $newarr['list'][$key] = $value;
-                $this->get_all_child($value['id'],&$newarr['list'][$key]);
-            }
-        }
-        print_r($newarr);exit;
-
-        return $newarr;
-    } 
   
     /** 
     * 得到所有子级数组 
     * @param int 
+    * @param bool  是否包含自己 
     * @return array 
     */  
-    public function get_all_child_id($myid){  
+    public function get_child_id($myid,$is_self = false){
+        if($is_self){
+            $this->newarr[] = $myid;
+        }  
         $child = $this->get_child($myid);  
         if(is_array($child)){ 
             foreach($child as $key=>$value){   
                 $this->newarr[] = $value['id'];
-                print_r($child);
-                echo $value['id'];exit;
-                $this->get_all_child_id($value['id']);
+                //print_r($child);
+                //echo $value['id'];exit;
+                $this->get_child_id($value['id'],false);
             }
         }
-        print_r($newarr);exit;
 
-        return $newarr;
+        return $this->newarr;
     }  
   
     /** 
@@ -382,14 +368,24 @@ class Tree {
       
     /** 
      * 获取jstree所需格式数据
-     * Enter description here ... 
-     * @param unknown_type $myid 
+     * @param $sid string 已选择的权限ID
+     * @return string 
+     * 
      */   
     public function get_treeview_arr($sid = ''){  
         $id_arr = explode(',', $sid);
         if(is_array($this->arr)){  
-            foreach($this->arr as $value){ 
-                $value['is_selected'] = in_array($value['id'], $id_arr)?1:0;
+            foreach($this->arr as $value){
+                //超级管理员全选
+                if($sid == '*'){
+                    $value['is_selected'] = 1;
+                }else{
+                    //有子级规则的不选
+                    $child = $this->get_child($value['id']);
+                    if(!is_array($child)){ 
+                        $value['is_selected'] = in_array($value['id'], $id_arr)?1:0;
+                    }
+                }
                 $this->newarr[] = $value;
             }  
         }  

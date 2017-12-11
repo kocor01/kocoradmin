@@ -16,6 +16,12 @@ use think\Request;
 use kocor\Auth;
 use app\admin\model\Login;
 use app\admin\model\Admin;
+use think\Session;
+
+
+/**
+ *  后台控制器基类
+ */
 
 class Backend extends Controller
 {
@@ -44,9 +50,10 @@ class Backend extends Controller
         $this->request->filter(['strip_tags']);     //设置过滤方法
 
         $request = Request::instance();
-        $module = strtolower($request->module());
-		$controller = strtolower($request->controller());
+        $module = $request->module();
+		$controller = $request->controller();
 		$action = $request->action();
+		$path = $request->controller().'/'.$request->action();
 
 
 		//以下绑定信息可以在继承该类时重新指定
@@ -60,32 +67,36 @@ class Backend extends Controller
 			$this->serachName = 'title';            //绑定搜索字段
 		}
         
-        
-        
         $login = model('Login');
 
         //检测是否需要验证登录
-   //      if($login->isNeedLogin($action,$this->noNeedLogin)){
-	  //       //判断是否登录
-	  //       if(!$login->isLogin()){
-	  //       	$this->success("你还未登录",'admin/index/login');
-	  //       }
+        if($login->isNeedLogin($action,$this->noNeedLogin)){
+	        //判断是否登录
+	        if(!$login->isLogin()){
+	        	$this->success("你还未登录",'admin/index/login');
+	        }
 	        
-	  //       //获取登录管理员信息
-	  //       $this->adminInfo = model('Admin')->getAdminLoginInfo();
+	        //获取登录管理员信息
+	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
 
-			// $this->auth = new Auth;
-	  //       //检测是否需要验证权限
-	  //       if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
-		 //        //权限控制
-			// 	$path = $controller.'/'.$action;
-			// 	if(!$this->auth->check($path,$this->adminInfo['id'])){
-			// 		$this->error("你没有权限！",'admin/index/nopermissions');
-			// 	}
-	  //       }
-   //      }
+			$this->auth = new Auth;
+	        //检测是否需要验证权限
+	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
+		        //权限控制
+				if(!$this->auth->check($path,$this->adminInfo['id'])){
+					$this->error("你没有权限！",'admin/index/nopermissions');
+				}
+	        }
+        }
 
+        //登录信息
+        $adminInfo = Session::get('admin');
+        $this->view->assign("adminInfo", $adminInfo);
 
+        //左侧菜单
+		$list = $this->model->select()->toArray();
+		$menu_tree = getTree($list,0);
+        $this->view->assign("menu_tree", $menu_tree);
     }
 
     
