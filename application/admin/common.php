@@ -46,11 +46,7 @@ function getTree2($data, $pId){
     $tree_str = '';
     foreach($data as $k => $v){
         if($v['pid'] == $pId){        //父亲找到儿子
-            if($v['pid'] == 0){
-                $tree_str .= '<li class="active"><a href="#"  data-addtab="'.$v['id'].'" data-url="/admin/'.$v['name'].'.html"><i class="'.$v['icon'].'"></i> <span>'.$v['title'].'1111</span></a>';
-            }else{
-                $tree_str .= '<li class="active"><a href="#"  data-addtab="'.$v['id'].'" data-url="/admin/'.$v['name'].'.html"><i class="'.$v['icon'].'"></i> <span>'.$v['title'].'222222</span></a>';
-            }
+            $tree_str .= '<li class="active"><a href="#"  data-addtab="'.$v['id'].'" data-url="/admin/'.$v['name'].'.html"><i class="'.$v['icon'].'"></i> <span>'.$v['title'].'222222</span></a>';
             $tree_str .= getTree2($data, $v['id']);
 
             $tree_str .= '</li>';

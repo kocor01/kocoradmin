@@ -32,9 +32,9 @@ class AuthRule extends Backend
 	public function index(){
 
 		
-		$list = $this->model->select()->toArray();
-		$list = getTree($list,0);
-		print_r($list);exit;
+		// $list = $this->model->select()->toArray();
+		// $list = getTree($list,0);
+		// print_r($list);exit;
 
 		
 
