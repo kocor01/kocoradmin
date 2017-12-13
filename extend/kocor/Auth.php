@@ -9,6 +9,8 @@
 // | Author: luofei614 <weibo.com/luofei614>　
 // +----------------------------------------------------------------------
 namespace kocor;
+
+use kocor\Tree;
 /**
  * 权限认证类
  * 功能特性：
@@ -230,6 +232,45 @@ class Auth{
     }
 
     /**
+     * 获得管理员权限列表（用于左侧菜单）
+     * @param integer $uid  用户id
+     * @param integer $type 
+     */
+    public function getAdminAuthList($uid,$type=1) {
+        $is_super_admin = false; //是否是超级管理员
+        //读取用户所属用户组
+        $groups = $this->getGroups($uid);
+
+        $ids = array();//保存用户所属用户组设置的所有权限规则id
+        foreach ($groups as $g) {
+            //超级管理员
+            if($g['rules'] == '*'){
+                $is_super_admin = true;
+            }
+            $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
+        }
+        $ids = array_unique($ids);  //去重
+        if (empty($ids)) {
+            return [];
+        }
+
+        $map=array(
+            'type'=>$type,
+            'status'=>1,
+            'is_menu'=>1,
+        );
+        if($is_super_admin == false){
+            $map['id'] = ['in',implode(',', $ids)];
+        }
+
+        //读取用户组所有权限规则
+        $rules = db($this->_config['AUTH_RULE'])->where($map)->select();
+
+        return $rules;
+    }
+
+
+    /**
      * 获得用户资料,根据自己的情况读取数据库
      */
     protected function getUserInfo($uid) {
@@ -240,9 +281,45 @@ class Auth{
         return $userinfo[$uid];
     }
 
+
     //检测是否需要验证权限
     public function isNeedAuth($action,$noNeedLogin){
         return in_array($action, $noNeedLogin)?false:true;;
+    }
+
+
+    /**
+     * 获取面包屑导航
+     */
+    public function getBreadCrumbs($path){
+        $rules = db($this->_config['AUTH_RULE'])->select();
+
+        $path_auth_id = '';
+        $breadCrumbs = [];
+        foreach ($rules as $key => $value) {
+            if($value['name'] == $path){
+                $path_auth_id = $value['id'];
+            }
+        }
+        if(!empty($path_auth_id)){
+            $tree = new Tree;
+            $tree->init($rules);
+            $parents_lsit = $tree->get_parents($path_auth_id,true);
+        }else{
+            return [
+                'title' => '',
+                'remark' => '',
+                'list' => '',
+            ];
+        }
+
+        $breadCrumbs['title'] = $parents_lsit[0]['title'];
+        $breadCrumbs['remark'] = $parents_lsit[0]['remark'];
+        unset($parents_lsit[0]);
+        $breadCrumbs['list'] = array_reverse($parents_lsit);
+
+        return $breadCrumbs;
+
     }
 
 

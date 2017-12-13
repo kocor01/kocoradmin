@@ -18,14 +18,9 @@
       
       <div id="nav" class="pull-left" >
         <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
-          <li role="presentation" class="active" id="tab_tab_2" aria-url="/admin/index/index.html" aria-ajax="false" class=""><a href="#tab_2" aria-controls="tab_2" role="tab" data-toggle="tab"><i class="fa fa-dashboard"></i> <span>主页</span></a></li>
+          <li role="presentation" class="active" id="tab_tab_1" aria-url="/admin/index/index.html" aria-ajax="false" class=""><a href="#tab_1" aria-controls="tab_1" role="tab" data-toggle="tab"><i class="fa fa-dashboard"></i> <span>主页</span></a></li>
         </ul>
-
-
-
       </div>
-
-
 
 <style type="text/css">
   
@@ -223,11 +218,11 @@
               <li class="user-header">
                 <img src="__STATIC__/images/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
-                  kocor - PHP工程师
-                  <small>只为自己开发框架</small>
+                  用户名:{$adminInfo.user_name} - 昵称:{$adminInfo.nick_name}
+                  <small>最后登录时间：{$adminInfo.last_login_time}</small>
                 </p>
               </li>
-              <!-- 菜单主体 -->
+              <!-- 菜单主体
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">

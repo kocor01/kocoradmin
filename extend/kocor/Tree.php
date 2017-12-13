@@ -90,9 +90,34 @@ class Tree {
         return $newarr ? $newarr : false;  
     }
   
+    /** 
+    * 得到所有父级数组 
+    * @param int 
+    * @param bool  是否包含自己 
+    * @return array 
+    */  
+    public function get_parents($myid,$is_self = false){
+
+        foreach ($this->arr as $key => $value) {
+            if($value['id'] == $myid){
+                $pid = $value[$this->pid_str];
+                if($is_self == true){
+                    $this->newarr[] = $value;
+                }
+                break;
+            }
+        }
+
+        if($pid){
+            $this->get_parents($pid,true);
+        }
+        
+        return $this->newarr;  
+    }  
+  
   
     /** 
-    * 得到所有子级数组 
+    * 得到所有子级数组ID
     * @param int 
     * @param bool  是否包含自己 
     * @return array 
@@ -105,8 +130,6 @@ class Tree {
         if(is_array($child)){ 
             foreach($child as $key=>$value){   
                 $this->newarr[] = $value['id'];
-                //print_r($child);
-                //echo $value['id'];exit;
                 $this->get_child_id($value['id'],false);
             }
         }

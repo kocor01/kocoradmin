@@ -89,11 +89,15 @@ class Backend extends Controller
 	        }
         }
 
-
-
         //登录信息
-        $adminInfo = Session::get('admin');
-        $this->view->assign("adminInfo", $adminInfo);
+        $this->adminInfo = Session::get('admin');
+        $this->view->assign("adminInfo", $this->adminInfo);
+
+        //面包屑导航
+        $breadCrumbs = $this->auth->getBreadCrumbs($path);
+        $this->view->assign("breadCrumbs", $breadCrumbs);
+        
+
     }
 
     

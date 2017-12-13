@@ -10,29 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-12-08 20:20:34
+Date: 2017-12-13 18:27:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for admin
--- ----------------------------
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of admin
--- ----------------------------
-INSERT INTO `admin` VALUES ('11', '暗杀神过', '55.00');
-INSERT INTO `admin` VALUES ('12', '特各位给', '56754.00');
-INSERT INTO `admin` VALUES ('13', '交一份叫她叫', '346.00');
-INSERT INTO `admin` VALUES ('17', 'dfhrthr', '324.00');
 
 -- ----------------------------
 -- Table structure for kocor_admin
@@ -53,20 +34,13 @@ CREATE TABLE `kocor_admin` (
   `update_time` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
   `create_time` int(10) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kocor_admin
 -- ----------------------------
-INSERT INTO `kocor_admin` VALUES ('4', 'afas', 'gsagaeg', 'defe30718609b3b1179c841916062a91', 'kocorw', null, 'asfas@qq.com', '13631575382', null, null, '1', '1511863574', '1511850037');
-INSERT INTO `kocor_admin` VALUES ('6', 'dsgerhg', 'hrewheh', '6802243e14edef11b5a33f94a2d626e0', 'KwEAjb', null, 'asfas@qq.com', '13631575382', '1512098291', '0', '1', '1512098291', '1511863394');
-INSERT INTO `kocor_admin` VALUES ('7', 'safsag', 'sagwg', '123456', 'NY892o', 'ZIzubQi0J9haVcT0EJKzfERVVxX3dgYL', 'asfas@qq.com', '13631575382', null, null, '1', '1511936408', '1511936408');
-INSERT INTO `kocor_admin` VALUES ('8', 'sdgsd', 'fsag', '', 'N0lLOs', 'mp04e9vJHEr0bRLNfv6UpzQO5M8xAvGK', 'asfas@qq.com', '13631575382', null, null, '1', '1512732204', '1511936713');
-INSERT INTO `kocor_admin` VALUES ('9', 'wagqeg', 'gsagaeg', 'bee8983a10253e539016aab093169b09', 'Kghh0W', 'fcZUr6cDKk9NAwm69Vg9A7frHi9IjSID', 'asfas@qq.com', '13631575382', null, null, '1', '1512732195', '1511936729');
-INSERT INTO `kocor_admin` VALUES ('10', 'wagqeg', 'gsagaeg', '4d3cf6f3bd76b20b4e156392d3ef1446', '7a1BYb', '26fVb8594RLCoNN4BHYB9drhxgHmGkFa', 'asfas@qq.com', '13631575382', null, null, '1', '1512727017', '1512727017');
-INSERT INTO `kocor_admin` VALUES ('11', 'wagqeg', 'gsagaeg', 'eb3a7744c0155b0f80bebe27d51d614c', '0aPitJ', 'esewiX22MhzE8QExY4RG8TkYlKpOXKEz', 'asfas@qq.com', '13631575382', null, null, '1', '1512727066', '1512727066');
-INSERT INTO `kocor_admin` VALUES ('12', 'afas', 'gsagaeg', '1d5f4961bd0e660bf45bfc529ee31f54', '4KqVi2', 'lwXBKwenHfi6LRhWYFyqlPu1WYuGjx7v', 'asfas@qq.com', '13631575382', null, null, '1', '1512728654', '1512727384');
-INSERT INTO `kocor_admin` VALUES ('13', 'afas', 'gsagaeg', '', 'KOLCoc', 'ETlZ5NSLgRA5KZNff2tsbd3ey54zan9U', 'asfas@qq.com', '13631575382', null, null, '1', '1512728767', '1512727406');
+INSERT INTO `kocor_admin` VALUES ('1', 'admin', 'kocor', 'fc0b2af07f1e6e6bd0b2bb09dd0b7be4', 'IFMM2b', 'WWXdHMfBF3ZZbjenCXokdlF5NQklgop8', '502117269@qq.com', '13631575382', '1513046799', '0', '1', '1513046799', '1512973196');
+INSERT INTO `kocor_admin` VALUES ('2', 'admin2', 'admin2', '1911ebd46042a0e804e1ec818aa787b3', 'Y6EsgV', 'M6IrqO4Gr1alpDcXIYDOxLH26SUfW1uv', '502117269@qq.com', '13631575382', '1513068404', '0', '1', '1513068404', '1512979819');
 
 -- ----------------------------
 -- Table structure for kocor_auth_group
@@ -82,14 +56,16 @@ CREATE TABLE `kocor_auth_group` (
   `update-time` int(10) NOT NULL DEFAULT '0' COMMENT '更新时间',
   `create_atime` int(10) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kocor_auth_group
 -- ----------------------------
-INSERT INTO `kocor_auth_group` VALUES ('1', '0', '超级管理员', '1', '1,2,5,4', '', '0', '0');
-INSERT INTO `kocor_auth_group` VALUES ('2', '1', '普通管理员', '1', '5,3,4', '', '0', '0');
-INSERT INTO `kocor_auth_group` VALUES ('3', '2', '二级管理员', '1', '5,3,4', '二级管理员', '0', '0');
+INSERT INTO `kocor_auth_group` VALUES ('1', '0', '超级管理员', '1', '*', '', '0', '0');
+INSERT INTO `kocor_auth_group` VALUES ('2', '1', '二级管理员', '1', '1,2,8,9,13,14', '', '0', '0');
+INSERT INTO `kocor_auth_group` VALUES ('3', '5', '三级管理员', '1', '2,8,9,10', '', '0', '0');
+INSERT INTO `kocor_auth_group` VALUES ('4', '3', '四级管理员', '1', '2,8,9', '', '0', '0');
+INSERT INTO `kocor_auth_group` VALUES ('5', '1', '二级管理员2', '1', '2,8,9,10,11,12', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for kocor_auth_group_access
@@ -106,19 +82,10 @@ CREATE TABLE `kocor_auth_group_access` (
 -- ----------------------------
 -- Records of kocor_auth_group_access
 -- ----------------------------
-INSERT INTO `kocor_auth_group_access` VALUES ('8', '2');
-INSERT INTO `kocor_auth_group_access` VALUES ('8', '3');
-INSERT INTO `kocor_auth_group_access` VALUES ('9', '3');
-INSERT INTO `kocor_auth_group_access` VALUES ('10', '1');
-INSERT INTO `kocor_auth_group_access` VALUES ('10', '2');
-INSERT INTO `kocor_auth_group_access` VALUES ('11', '1');
-INSERT INTO `kocor_auth_group_access` VALUES ('11', '2');
-INSERT INTO `kocor_auth_group_access` VALUES ('11', '3');
-INSERT INTO `kocor_auth_group_access` VALUES ('12', '1');
-INSERT INTO `kocor_auth_group_access` VALUES ('12', '3');
-INSERT INTO `kocor_auth_group_access` VALUES ('13', '1');
-INSERT INTO `kocor_auth_group_access` VALUES ('13', '2');
-INSERT INTO `kocor_auth_group_access` VALUES ('13', '3');
+INSERT INTO `kocor_auth_group_access` VALUES ('1', '1');
+INSERT INTO `kocor_auth_group_access` VALUES ('1', '2');
+INSERT INTO `kocor_auth_group_access` VALUES ('1', '4');
+INSERT INTO `kocor_auth_group_access` VALUES ('2', '2');
 
 -- ----------------------------
 -- Table structure for kocor_auth_rule
@@ -140,14 +107,52 @@ CREATE TABLE `kocor_auth_rule` (
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kocor_auth_rule
 -- ----------------------------
-INSERT INTO `kocor_auth_rule` VALUES ('1', '0', 'admin/index', '管理员列表', '1', '1', '1', '0', 'fa fa-arrow-circle-left', '50', '', '1512716864', '0');
-INSERT INTO `kocor_auth_rule` VALUES ('2', '1', 'admin/add', '管理员增加', '1', '1', '1', '0', 'fa fa-edit', '50', '', '0', '0');
-INSERT INTO `kocor_auth_rule` VALUES ('3', '5', 'admin/edit', '管理员编辑', '1', '1', '1', '0', 'fa fa-align-justify', '50', '', '1512716878', '0');
-INSERT INTO `kocor_auth_rule` VALUES ('4', '5', 'admin/del', '管理员删除', '1', '1', '1u', '1', 'fa fa-automobile', '500', 'yuktykty', '1512716900', '0');
-INSERT INTO `kocor_auth_rule` VALUES ('5', '0', 'admin', '管理员管理', '1', '1', '1', '1', 'fa fa-drivers-license-o', '50', 'uluylu', '1512716909', '0');
-INSERT INTO `kocor_auth_rule` VALUES ('8', '0', 'article/add', '文章管理', '1', '1', '00', '1', 'fa fa-bank', '50', '文章管理', '1512718683', '1512718683');
+INSERT INTO `kocor_auth_rule` VALUES ('1', '0', 'index/index', '主页', '1', '1', '', '1', 'fa fa-dashboard', '50', '', '1512962345', '1512962345');
+INSERT INTO `kocor_auth_rule` VALUES ('2', '0', 'auth', '权限管理', '1', '1', '', '1', 'fa fa-expeditedssl', '50', '', '1513143881', '1512961123');
+INSERT INTO `kocor_auth_rule` VALUES ('3', '2', 'auth_rule', '权限规则管理', '1', '1', '', '1', 'fa fa-expeditedssl', '50', '', '1513068141', '1512961123');
+INSERT INTO `kocor_auth_rule` VALUES ('4', '3', 'auth_rule/index', '列表', '1', '1', '', '0', 'fa fa-dedent', '50', '', '1512961180', '1512961180');
+INSERT INTO `kocor_auth_rule` VALUES ('5', '3', 'auth_rule/add', '增加', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961221', '1512961221');
+INSERT INTO `kocor_auth_rule` VALUES ('6', '3', 'auth_rule/edit', '编辑', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961249', '1512961249');
+INSERT INTO `kocor_auth_rule` VALUES ('7', '3', 'auth_rule/del', '删除', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961275', '1512961275');
+INSERT INTO `kocor_auth_rule` VALUES ('8', '2', 'auth_group', '权限组管理', '1', '1', '', '1', 'fa fa-server', '50', '', '1512961460', '1512961460');
+INSERT INTO `kocor_auth_rule` VALUES ('9', '8', 'auth_group/index', '列表', '1', '1', '', '0', 'fa fa-server', '50', '权限组添加、删除以及分配权限管理', '1513143893', '1512961460');
+INSERT INTO `kocor_auth_rule` VALUES ('10', '8', 'auth_group/add', '增加', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961480', '1512961480');
+INSERT INTO `kocor_auth_rule` VALUES ('11', '8', 'auth_group/edit', '编辑', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961501', '1512961501');
+INSERT INTO `kocor_auth_rule` VALUES ('12', '8', 'auth_group/del', '删除', '1', '1', '', '0', 'fa fa-list', '50', '', '1512961523', '1512961523');
+INSERT INTO `kocor_auth_rule` VALUES ('13', '2', 'admin', '管理员管理', '1', '1', '', '1', 'fa fa-user-circle', '50', '', '1512962066', '1512962066');
+INSERT INTO `kocor_auth_rule` VALUES ('14', '13', 'admin/index', '列表', '1', '1', '', '0', 'fa fa-user-circle', '50', '', '1512962066', '1512962066');
+INSERT INTO `kocor_auth_rule` VALUES ('15', '13', 'admin/add', '增加', '1', '1', '', '0', 'fa fa-list', '50', '', '1512962087', '1512962087');
+INSERT INTO `kocor_auth_rule` VALUES ('16', '13', 'admin/edit', '编辑', '1', '1', '', '0', 'fa fa-list', '50', '', '1512962113', '1512962113');
+INSERT INTO `kocor_auth_rule` VALUES ('17', '13', 'admin/del', '删除', '1', '1', '', '0', 'fa fa-list', '50', '', '1512962133', '1512962133');
+INSERT INTO `kocor_auth_rule` VALUES ('18', '0', 'system', '系统管理', '1', '1', '', '1', 'fa fa-cogs', '50', '', '1513072930', '1513072930');
+INSERT INTO `kocor_auth_rule` VALUES ('19', '18', 'config/index', '系统设置', '1', '1', '', '1', 'fa fa-cog', '50', '', '1513072965', '1513072965');
+
+-- ----------------------------
+-- Table structure for kocor_config
+-- ----------------------------
+DROP TABLE IF EXISTS `kocor_config`;
+CREATE TABLE `kocor_config` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group` varchar(255) NOT NULL DEFAULT '0' COMMENT '分组',
+  `type` varchar(255) NOT NULL DEFAULT '0' COMMENT '类型',
+  `name` varchar(255) NOT NULL COMMENT '变量名',
+  `title` varchar(255) NOT NULL COMMENT '标题',
+  `value` varchar(255) NOT NULL COMMENT '变量值',
+  `msg` varchar(255) NOT NULL COMMENT '提示信息',
+  `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of kocor_config
+-- ----------------------------
+INSERT INTO `kocor_config` VALUES ('1', 'dictionary', 'array', 'categorytype', '分组配置', '{\"basic\":\"基础配置\",\"email\":\"邮件配置\",\"dictionary\":\"字典配置\",\"user\":\"会员配置\",\"example\":\"示例配置\"}', '', '0', '0');
+INSERT INTO `kocor_config` VALUES ('2', 'basic', 'string', 'sitename', '网站名称', 'kocol管理系统', '', '0', '0');
+INSERT INTO `kocor_config` VALUES ('3', 'basic', 'string', 'keyword', '网站关键词', 'kocol，管理系统', '', '0', '0');
+INSERT INTO `kocor_config` VALUES ('4', 'dictionary', 'text', 'description', '网站描述', 'kocol管理系统，为自己开发系统', '', '0', '0');

@@ -1,0 +1,42 @@
+<!-- Custom Tabs -->
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs nav-bg">
+    {volist name="getCategoryType" id="vo" }
+    <li {eq name="i" value="1"}class="active"{/eq}><a href="#tab_{$key}" data-toggle="tab">{$vo}</a></li>
+    {/volist}
+  </ul>
+  <div class="tab-content">
+
+    {volist name="getGroupList" id="vo" key="k"}
+    <div class="tab-pane {eq name="k" value="1" }active{/eq}" id="tab_{$key}">
+
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th>变量标题</th>
+                    <th>变量值</th>
+                    <th>变量名</th>
+                    <th>提示信息</th>
+                  </tr>
+                  {volist name="vo" id="vol" }
+                  <tr>
+                    <td>{$vol.title}</td>
+                    <td><input type="text" name="row[beian]" value="" class="form-control" data-rule="" data-tip="粤ICP备15054802号-4"></td>
+                    <td>{ $site.{$vol.name} }</td>
+                    <td>{$vol.msg}</td>
+                  </tr>
+                  {/volist}
+                </tbody>
+              </table>
+            </div>
+    </div>
+    {/volist}
+  <!-- /.tab-pane -->
+  </div>
+<!-- /.tab-content -->
+</div>
+
+<style type="text/css">
+  .nav-bg{background:#f4f4f4;}
+</style>

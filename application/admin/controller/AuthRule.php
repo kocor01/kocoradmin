@@ -31,13 +31,6 @@ class AuthRule extends Backend
 	 */
 	public function index(){
 
-		
-		// $list = $this->model->select()->toArray();
-		// $list = getTree($list,0);
-		// print_r($list);exit;
-
-		
-
 		if(request()->isAjax()){
 			
 			//列表请求参数
@@ -136,52 +129,5 @@ class AuthRule extends Backend
         $this->view->assign("row", $row);
 		return $this->fetch('');
 	}
-
-	public function str(){
-		//$this->view->engine->layout(false);
-		// 	$where['status'] = 1;
-		// 	$list = $this->model->field('id,pid,title,name')->where($where)->select()->toArray();
-		// $this->tree->init($list);
-		// $tree_list = $this->tree->get_treeview_arr('3,5');
-		// print_r($tree_list);
-		// //echo $tree_list;
-		// exit;
-
-		if(request()->isPost()){
-			$arr = [
-				'Simple root node',
-				[
-					'text'=>'Root node 2',
-					'state'=>[
-						'opened'=>true,
-						'selected'=>true,
-					],
-					'children'=>[
-						[
-							'text'=>'Child 1',
-						],
-						'Child 2',
-					],
-				],
-			];
-			//$str = json_encode($arr);//"
-
-			//['Simple root node',{'text':'Root node 2','state':{'opened':true,'selected':true},'children':[{'text':'Child 1'},'Child 2']}]";
-			//["Simple root node",{"text":"Root node 2","state":{"opened":true,"selected":true},"children":[{"text":"Child 1"},"Child 2"]}]
-
-			$where['status'] = 1;
-			$list = $this->model->field('id,pid,title')->where($where)->select()->toArray();
-
-			//
-			$this->tree->init($list);
-			$tree_arr = $this->tree->get_treeview_arr('3,5');
-    		return $tree_arr;
-		}
-		return $this->fetch('');
-
-
-	}
-
-
-
+	
 }
