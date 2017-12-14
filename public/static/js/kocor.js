@@ -213,4 +213,32 @@ $(document).on('keyup', 'input.js-icon-search', function () {
     }
 });
 
+$(function(){
+    // Custom theme
+    $.validator.setTheme('bootstrap', {
+        validClass: 'has-success',
+        invalidClass: 'has-error',
+        bindClassTo: '.form-group',
+        formClass: 'n-default n-bootstrap',
+        msgClass: 'n-right'
+    });
+});
+
+$(document).on('click', "[data-toggle='wipecache']", function () {
+    $.ajax({
+        url: '/admin/ajax/cacheall',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            if(data.status){
+                layer.msg(data.msg);  
+            }else{
+                layer.msg('删除缓存成功'); 
+            }
+            
+        }, error: function () {
+            layer.msg('删除缓存成功');
+        }
+    });
+});
 

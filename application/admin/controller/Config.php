@@ -29,12 +29,20 @@ class Config extends Backend
 
         $configList = $this->model->all()->toArray();
         foreach ($configList as $value) {
-            $getGroupList[$value['group']][] = $value;
+            switch ($value['type']) {
+                //case 'array':
+                    //$value['value'] = json_decode($value['value'],true);
+                    //$getGroupList[$value['group']][] = $value;
+                    //break;
+                
+                default:
+                    $getGroupList[$value['group']][] = $value;
+                    break;
+            }
         }
         $this->view->assign("getGroupList", $getGroupList);
         $this->view->assign("configList", $configList);
-        // print_r($getGroupList);
-        // exit;
+
 
 
 		return $this->fetch('');
@@ -55,6 +63,42 @@ class Config extends Backend
 		}
 		$result = file_put_contents($configFilePath, "<?php\n\nreturn " . var_export($config, true) . ";\n\n?>");
 	}
+
+
+
+
+    /**
+     *  编辑方法
+     */
+    public function edit(){
+
+        if(request()->isPost()){
+
+            $params = Request::instance()->post('row/a'); // 获取post变量
+
+            $configAll = $this->model->all();
+
+            $updateData = [];
+            foreach ($configAll as $key => $value) {
+                if(isset($params[$value['name']])){
+                    $updateData[] = [
+                        'id' => $value['id'],
+                        'value' => $params[$value['name']],
+                    ];    
+                }
+            }
+            //print_r($updateData);exit;
+
+            $this->model->saveAll($updateData);
+
+            try{
+                $this->reFlashConfig();
+                $this->success('更新成功');
+            }catch (Exception $e){
+                $this->error($e->getMessage());
+            }
+        }
+    }
 
 
 

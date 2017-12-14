@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-12-13 18:27:24
+Date: 2017-12-14 19:35:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ CREATE TABLE `kocor_admin` (
 -- ----------------------------
 -- Records of kocor_admin
 -- ----------------------------
-INSERT INTO `kocor_admin` VALUES ('1', 'admin', 'kocor', 'fc0b2af07f1e6e6bd0b2bb09dd0b7be4', 'IFMM2b', 'WWXdHMfBF3ZZbjenCXokdlF5NQklgop8', '502117269@qq.com', '13631575382', '1513046799', '0', '1', '1513046799', '1512973196');
+INSERT INTO `kocor_admin` VALUES ('1', 'admin', 'kocor', 'fc0b2af07f1e6e6bd0b2bb09dd0b7be4', 'IFMM2b', 'WWXdHMfBF3ZZbjenCXokdlF5NQklgop8', '502117269@qq.com', '13631575382', '1513235687', '0', '1', '1513235687', '1512973196');
 INSERT INTO `kocor_admin` VALUES ('2', 'admin2', 'admin2', '1911ebd46042a0e804e1ec818aa787b3', 'Y6EsgV', 'M6IrqO4Gr1alpDcXIYDOxLH26SUfW1uv', '502117269@qq.com', '13631575382', '1513068404', '0', '1', '1513068404', '1512979819');
 
 -- ----------------------------
@@ -107,7 +107,7 @@ CREATE TABLE `kocor_auth_rule` (
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kocor_auth_rule
@@ -131,6 +131,8 @@ INSERT INTO `kocor_auth_rule` VALUES ('16', '13', 'admin/edit', '编辑', '1', '
 INSERT INTO `kocor_auth_rule` VALUES ('17', '13', 'admin/del', '删除', '1', '1', '', '0', 'fa fa-list', '50', '', '1512962133', '1512962133');
 INSERT INTO `kocor_auth_rule` VALUES ('18', '0', 'system', '系统管理', '1', '1', '', '1', 'fa fa-cogs', '50', '', '1513072930', '1513072930');
 INSERT INTO `kocor_auth_rule` VALUES ('19', '18', 'config/index', '系统设置', '1', '1', '', '1', 'fa fa-cog', '50', '', '1513072965', '1513072965');
+INSERT INTO `kocor_auth_rule` VALUES ('20', '18', 'ajax/cache', '清理缓存', '1', '1', '', '1', 'fa fa-trash', '50', '', '1513242940', '1513242940');
+INSERT INTO `kocor_auth_rule` VALUES ('21', '19', 'config/add', '增加设置项', '1', '1', '', '0', 'fa fa-list', '50', '', '1513251046', '1513251008');
 
 -- ----------------------------
 -- Table structure for kocor_config
@@ -152,7 +154,7 @@ CREATE TABLE `kocor_config` (
 -- ----------------------------
 -- Records of kocor_config
 -- ----------------------------
-INSERT INTO `kocor_config` VALUES ('1', 'dictionary', 'array', 'categorytype', '分组配置', '{\"basic\":\"基础配置\",\"email\":\"邮件配置\",\"dictionary\":\"字典配置\",\"user\":\"会员配置\",\"example\":\"示例配置\"}', '', '0', '0');
+INSERT INTO `kocor_config` VALUES ('1', 'dictionary', 'array', 'categorytype', '分组配置', '{\"basic\":\"基础配置\",\"email\":\"邮件配置\",\"dictionary\":\"字典配置\",\"user\":\"会员配置\"}', '', '0', '0');
 INSERT INTO `kocor_config` VALUES ('2', 'basic', 'string', 'sitename', '网站名称', 'kocol管理系统', '', '0', '0');
 INSERT INTO `kocor_config` VALUES ('3', 'basic', 'string', 'keyword', '网站关键词', 'kocol，管理系统', '', '0', '0');
-INSERT INTO `kocor_config` VALUES ('4', 'dictionary', 'text', 'description', '网站描述', 'kocol管理系统，为自己开发系统', '', '0', '0');
+INSERT INTO `kocor_config` VALUES ('4', 'basic', 'text', 'description', '网站描述', 'kocol管理系统，为自己开发系统', '', '0', '0');
