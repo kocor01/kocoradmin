@@ -10,13 +10,9 @@
 
 namespace app\admin\controller;
 
-use think\Db;
 use think\Request;
-use think\Validate;
-use think\Controller;
 use app\admin\model\Login;
 use kocor\Tree;
-use kocor\Auth;
 use app\admin\validate\Login as validateLogin;
 use app\admin\controller\Backend;
 
@@ -37,7 +33,6 @@ class Index extends Backend
         $this->model = model('Login');              //绑定模型
         $this->validate = validate('Login');        //绑定验证器
 		$this->tree = new Tree;
-		$this->auth = new Auth;
         parent::_initialize();
     }
 

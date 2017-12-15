@@ -9,7 +9,6 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use think\Db;
 use think\Request;
 use kocor\Tree;
 

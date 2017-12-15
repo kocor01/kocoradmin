@@ -9,15 +9,18 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use think\Db;
 use think\Request;
-use kocor\Tree;
-use app\admin\model\AuthGroup;
 
 use app\admin\controller\Backend;
 
 class Config extends Backend
 {
+
+    public function _initialize()
+    {
+        parent::_initialize();
+    }
+
 	public function index(){
 		$getCategoryType = $this->model->getCategoryType();
         $this->view->assign("getCategoryType", $getCategoryType);
@@ -48,22 +51,36 @@ class Config extends Backend
 		return $this->fetch('');
 	}
 
-	//更新静态系统配置文件
-	public function reFlashConfig(){
-		$configList = $this->model->all()->toArray();
-		$configFilePath = CONF_PATH.'admin/extra/site.php';
+    public function add(){
 
-		$config = [];
-		foreach ($configList as $key => $value) {
-			if($value['type'] == 'array'){
-				$config[$value['name']] = json_decode($value['value'],true);
-			}else{
-				$config[$value['name']] =  $value['value'];
-			}
-		}
-		$result = file_put_contents($configFilePath, "<?php\n\nreturn " . var_export($config, true) . ";\n\n?>");
-	}
 
+        if(request()->isPost()){
+
+            $params = Request::instance()->post('row/a'); // 获取post变量
+
+            if(!$this->validate->check($params)){
+                $this->error($this->validate->getError());
+            }else{
+                
+                $this->model->data($params);
+                $result = $this->model->allowField(true)->save();
+                if($result){
+                    $this->success('添加成功');
+                }else{
+                    $this->error('添加失败');
+                }
+            }
+        }
+        
+        $getTypeList = $this->model->getTypeList();
+        $this->view->assign("getTypeList", $getTypeList);
+
+        $getCategoryType = $this->model->getCategoryType();
+        $this->view->assign("getCategoryType", $getCategoryType);
+
+        return $this->fetch('');
+
+    }
 
 
 
@@ -87,7 +104,6 @@ class Config extends Backend
                     ];    
                 }
             }
-            //print_r($updateData);exit;
 
             $this->model->saveAll($updateData);
 
@@ -99,6 +115,23 @@ class Config extends Backend
             }
         }
     }
+
+    //更新静态系统配置文件
+    public function reFlashConfig(){
+        $configList = $this->model->all()->toArray();
+        $configFilePath = CONF_PATH.'admin/extra/site.php';
+
+        $config = [];
+        foreach ($configList as $key => $value) {
+            if($value['type'] == 'array'){
+                $config[$value['name']] = json_decode($value['value'],true);
+            }else{
+                $config[$value['name']] =  $value['value'];
+            }
+        }
+        $result = file_put_contents($configFilePath, "<?php\n\nreturn " . var_export($config, true) . ";\n\n?>");
+    }
+
 
 
 

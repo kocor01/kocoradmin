@@ -9,10 +9,8 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use think\Db;
-use think\Request;
 use kocor\Tree;
-use app\admin\model\AuthGroup;
+use think\Request;
 
 use app\admin\controller\Backend;
 
@@ -21,9 +19,9 @@ class Admin extends Backend
 
     public function _initialize()
     {
+        $this->serachName = 'user_name';            //搜索字段
         parent::_initialize();
 		$this->tree = new Tree;
-        $this->serachName = 'user_name';            //搜索字段
     }
 
 
@@ -82,31 +80,15 @@ class Admin extends Backend
 			if(!$this->validate->check($params)){
 			    $this->error($this->validate->getError());
 			}else{
-				if(!empty($params['password'])){
-					if($params['password'] != $params['repassword']){
-						$this->error('密码与确认密码不一致！');
-					}else{
-						$params['password'] = $this->model->getPasswordMd5Str($params['password'],$params['salt']);
-					}
-				}
+				$params['password'] = $this->model->getPasswordMd5Str($params['password'],$params['salt']);
 				
 				$this->model->data($params);
 				$result = $this->model->allowField(true)->save();
 
-				//权限组数组
-				$group_arr = [];
-				foreach ($params['group'] as $value) {
-					$group_arr[] = ['group_id'=>$value];
-				}
-
-				//更新权限组
-				$Admin = model('Admin')->get($this->model->id);
-				//关联删除
-				$Admin->group_access()->delete();
-				//关联添加
-				$Admin->group_access()->saveAll($group_arr);
-
 				if($result){
+					//更新管理员权限
+					$this->model->reAdminGroupAccess($this->model->id,$params['group']);
+
 					$this->success('新增成功');
 				}else{
 					$this->error('新增失败');
@@ -115,10 +97,7 @@ class Admin extends Backend
 		}
 
         //权限组节点树
-        $where['status'] = 1;
-        $list = model('AuthGroup')->where($where)->select()->toArray();
-        $this->tree->init($list);
-        $tree_list = $this->tree->get_tree(0,"<option value=\$id \$selected>\$spacer\$title</option>");
+        $tree_list = model('AuthGroup')->getGroupTree();
         $this->view->assign("tree_list", $tree_list);
 
 		return $this->fetch('');
@@ -136,33 +115,26 @@ class Admin extends Backend
 
 			$params = Request::instance()->post('row/a'); // 获取post变量
 
-			$params['salt'] = $row['salt'];
-			if(empty($params['password'])){
-				unset($params['password']);
-			}else if($params['password'] != $params['repassword']){
-				$this->error('密码与确认密码不一致！');
-			}
 
 			if(!$this->validate->check($params)){
 			    $this->error($this->validate->getError());
 			}else{
+
+				if(empty($params['password'])){
+					unset($params['password']);
+				}else{
+					$params['salt'] = $this->model->getSalt();
+					$params['token'] = $this->model->getToken();
+					$params['password'] = $this->model->getPasswordMd5Str($params['password'],$params['salt']);
+				}
+
 				$row->data($params,true);
 				$result = $row->allowField(true)->save();
 
-				//权限组数组
-				$group_arr = [];
-				foreach ($params['group'] as $value) {
-					$group_arr[] = ['group_id'=>$value];
-				}
-
-				//更新权限组
-				$Admin = model('Admin')->get($id);
-				//关联删除
-				$Admin->group_access()->delete();
-				//关联添加
-				$Admin->group_access()->saveAll($group_arr);
-
 				if($result){
+					//更新管理员权限
+					$result && $result = $this->model->reAdminGroupAccess($id,$params['group']);
+
 					$this->success('更新成功');
 				}else{
 					$this->error('更新失败');
@@ -171,26 +143,23 @@ class Admin extends Backend
 		}
 
         //权限组节点树
-        $where['status'] = 1;
-        $list = model('AuthGroup')->where($where)->select()->toArray();
-        $this->tree->init($list);
-        $tree_list = $this->tree->get_tree(0,"<option value=\$id \$selected>\$spacer\$title</option>");
+        $tree_list = model('AuthGroup')->getGroupTree();
         $this->view->assign("tree_list", $tree_list);
 
 
-		//关联已有查询权限组
+		//关联查询已有权限组
 		$AuthGroupOwn = $row->group_access()->select()->toArray();
 		$AuthGroupOwn_arr = [];
 		foreach ($AuthGroupOwn as $value) {
 			$AuthGroupOwn_arr[] = $value['group_id'];
 		}
 		$AuthGroupOwn_str = implode(',', $AuthGroupOwn_arr);
+        $this->view->assign("AuthGroupOwn_str", $AuthGroupOwn_str);
 
 		//全部原始数据 获取器
 		$row = $row->getData();
 
         $this->view->assign("row", $row);
-        $this->view->assign("AuthGroupOwn_str", $AuthGroupOwn_str);
 		return $this->fetch('');
 	}
 

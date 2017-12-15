@@ -13,9 +13,27 @@ use think\Model;
 
 class Config extends Model
 {
-	public function getCategoryType(){
+	public static function getCategoryType(){
 		return config('site.categorytype');
 	}
+
+    public static function getTypeList(){
+        return [
+            'string' => '字符串',
+            'text'   => '文本',
+            'number' => '数字',
+            'datetime' => '日期时间',
+            'select' => '列表',
+            'selects' => '列表(多选)',
+            'image' => '图片',
+            'images' => '图片(多选)',
+            'file' => '文件',
+            'files' => '文件(多选)',
+            'checkbox' => '复选',
+            'radio' => '单选',
+            'array' => '数组',
+        ];
+    }
 	
 
 }
