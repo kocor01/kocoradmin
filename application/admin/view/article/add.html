@@ -1,0 +1,70 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">父级：</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="form-control" name="row[cate_id]" data-rule="required">
+                <option value="0">无</option>
+                {$tree_list}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">标题：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">文章缩略图：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[pic]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-remark" class="control-label col-xs-12 col-sm-2">文章内容：</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" name="row[content]"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">SEO标题：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" name="row[seo_title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">SEO关键词：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" name="row[seo_keyword]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-remark" class="control-label col-xs-12 col-sm-2">SEO描述：</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" name="row[seo_description]"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-weigh" class="control-label col-xs-12 col-sm-2">权重：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]" type="text" value="50">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-status" class="control-label col-xs-12 col-sm-2">状态：</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="radio">
+                <label for="row[status]-1"><input id="row[status]-1" checked="checked" name="row[status]" type="radio" value="1"> 是</label> 
+                <label for="row[status]-0"><input id="row[status]-0" name="row[status]" type="radio" value="0"> 否</label>
+            </div>        
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">确认</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+        </div>
+    </div>
+</form>

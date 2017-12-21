@@ -1,6 +1,7 @@
 <?php
+use think\Hook;
 
-
+Hook::add('app_endddd','app\\admin\\behavior\\Test'); 
 //驼峰转下划线
 function humpToLine($str){
 	$str = lcfirst($str);

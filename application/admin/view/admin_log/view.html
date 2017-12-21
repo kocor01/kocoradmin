@@ -1,0 +1,45 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">日志详情</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th style="width: 100px">ID</th>
+                    <th>{$row.id}</th>
+                </tr>
+                <tr>
+                    <td>管理员ID</td>
+                    <td>{$row.admin_id}</td>
+                </tr>
+                <tr>
+                    <td>管理员</td>
+                    <td>{$row.user_name}</td>
+                </tr>
+                <tr>
+                    <td>访问地址</td>
+                    <td>{$row.url}</td>
+                </tr>
+                <tr>
+                    <td>请求参数</td>
+                    <td>{$row.params}</td>
+                </tr>
+                <tr>
+                    <td>User-Agent</td>
+                    <td>{$row.useragent}</td>
+                </tr>
+                <tr>
+                    <td>来源IP</td>
+                    <td>{$row.ip}</td>
+                </tr>
+                <tr>
+                    <td>创建时间</td>
+                    <td>{$row.create_time}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>

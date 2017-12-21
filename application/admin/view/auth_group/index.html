@@ -5,78 +5,38 @@
         <a href="javascript:;" class="btn btn-danger" id="btn_del"><i class="fa fa-trash"></i> 删除</a>                        
     </div>
 
-    <table id="tb_departments" data-show-export="true" data-url-name="auth_group"></table>
+    <table id="tb_departments" data-show-export="true" data-controller-path="auth_group"></table>
 </div>
 
+
+
+<script src="__JS__/kocor-table.js"></script>
+
 <script>
-
-
-
 var TableInit = function () {
     var oTableInit = new Object();
 
+    var table_config = {
+        columns: [
+            {checkbox: true}, 
+            {field:'id',title:'ID',titleTooltip:"就是标题提示啦"}, 
+            {field:'title',title:'组名称'}, 
+            {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
+            {
+                field: 'operate',
+                title: '操作',
+                events: operateEvents,  //注册按钮事件
+                formatter: operateFormatter //自定义方法，添加操作按钮
+            }
+        ]
+    }
+
+    var result = $.extend( true,{},Table.defaults,table_config);
+
     //初始化Table
     oTableInit.Init = function () {
-
-        $('#tb_departments').bootstrapTable({
-            url: '/admin/'+urlName+'/index',         //请求后台的URL（*）
-            method: 'post',                      //请求方式（*）
-            striped: true,    //设置为 true 会有隔行变色效果
-            sortName: 'id',    //定义排序列,通过url方式获取数据填写字段名，否则填写下标
-            sortOrder: "desc",    //定义排序方式 'asc' 或者 'desc'
-            cache: false,    //设置为 false 禁用 AJAX 数据缓存
-            dataType: "json",    //服务器返回的数据类型
-            queryParams: oTableInit.queryParams,    //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果 queryParamsType = 'limit' ,返回参数必须包含limit, offset, search, sort, order 否则, 需要包含: pageSize, pageNumber, searchText, sortName, sortOrder. 返回false将会终止请求
-            pagination: true,    //设置为 true 会在表格底部显示分页条
-            paginationLoop: false,    //设置为 true 启用分页条无限循环的功能。
-            sidePagination: "server",    //设置在哪里进行分页，可选值为 'client' 或者 'server'。设置 'server'时，必须设置 服务器数据地址（url）或者重写ajax方法
-            pageNumber: 1,    //如果设置了分页，首页页码
-            pageSize: 6,    //如果设置了分页，页面数据条数
-            pageList: [10, 25, 50, 100],    //如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
-            search: true,    //是否启用搜索框
-            searchOnEnterKey: true,    //设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
-            showColumns: true,    //是否显示 内容列下拉框
-            showRefresh: true,    //是否显示 刷新按钮
-            showToggle: true,    //是否显示 切换试图（table/card）按钮
-            showPaginationSwitch: true,    //是否显示 数据条数选择框
-            idField: "id",    //指定主键列
-            uniqueId: "ID",    //为每一行指定唯一的标识符
-            paginationPreText: "上一页",    //指定分页条中上一页按钮的图标或文字
-            paginationNextText: "下一页",    //指定分页条中下一页按钮的图标或文字
-            clickToSelect: true,    //设置true 将在点击行时，自动选择rediobox 和 checkbox
-            toolbar: "#toolbar",    //工具按钮用哪个容器
-            maintainSelected: true,    //设置为 true 在点击分页按钮或搜索按钮时，将记住checkbox的选择项
-
-            //  列配置项,
-            columns: [
-                {checkbox: true}, 
-                {field:'id',title:'ID',titleTooltip:"就是标题提示啦"}, 
-                {field:'title',title:'组名称'}, 
-                {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
-                {
-                    field: 'operate',
-                    title: '操作',
-                    events: operateEvents,  //注册按钮事件
-                    formatter: operateFormatter //自定义方法，添加操作按钮
-                }
-            ],
-        });
-    };
-
-    //得到查询的参数
-    oTableInit.queryParams = function (params) {
-        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            limit: params.limit,   //页面大小
-            offset: params.offset,  //页码
-            sort: params.sort,  //排序字段
-            order: params.order,  //排序
-            search: params.search,  //搜索
-            departmentname: $("#txt_search_departmentname").val(),
-            statu: $("#txt_search_statu").val()
-        };
-        return temp;
+        $('#tb_departments').bootstrapTable(result);
     };
     return oTableInit;
 };
-
 </script>

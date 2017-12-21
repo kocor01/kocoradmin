@@ -47,7 +47,6 @@ class Backend extends Controller
     {
 
         parent::_initialize();
-        $this->request->filter(['strip_tags']);     //设置过滤方法
 
         $request = Request::instance();
         $module = $request->module();
@@ -68,6 +67,7 @@ class Backend extends Controller
 		}
         
         $login = model('Login');
+		$this->auth = new Auth;
 
         //检测是否需要验证登录
         if($login->isNeedLogin($action,$this->noNeedLogin)){
@@ -79,7 +79,6 @@ class Backend extends Controller
 	        //获取登录管理员信息
 	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
 
-			$this->auth = new Auth;
 	        //检测是否需要验证权限
 	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
 		        //权限控制

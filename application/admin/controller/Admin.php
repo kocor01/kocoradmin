@@ -20,6 +20,7 @@ class Admin extends Backend
     public function _initialize()
     {
         $this->serachName = 'user_name';            //搜索字段
+        $this->request->filter(['strip_tags']);     //设置过滤方法
         parent::_initialize();
 		$this->tree = new Tree;
     }
@@ -125,9 +126,7 @@ class Admin extends Backend
 				}else{
 					$params['salt'] = $this->model->getSalt();
 					$params['token'] = $this->model->getToken();
-					$params['password'] = $this->model->getPasswordMd5Str($params['password'],$params['salt']);
 				}
-
 				$row->data($params,true);
 				$result = $row->allowField(true)->save();
 

@@ -30,6 +30,7 @@ class Index extends Backend
 	 */
 	public function _initialize()
     {
+        $this->request->filter(['strip_tags']);     //设置过滤方法
         $this->model = model('Login');              //绑定模型
         $this->validate = validate('Login');        //绑定验证器
 		$this->tree = new Tree;

@@ -2,6 +2,6 @@
 
 return [
     'app_end'=> [
-        'app\\admin\\behavior\\Test'
+        'app\\admin\\behavior\\AdminLog'
     ]
 ];
