@@ -21,7 +21,7 @@ var TableInit = function () {
             {field:'id',title:'ID'}, 
             {field:'title',title:'标题'}, 
             {field:'article_cate.name',title:'分类'}, 
-            {field:'pic',title:'栏目缩略图'}, 
+            {field:'pic',title:'栏目缩略图',formatter: getImageShow}, 
             {field:'weigh',title:'权重'}, 
             {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
             {field:'update_time',title:'更新时间'}, 

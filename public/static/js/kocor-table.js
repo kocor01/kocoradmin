@@ -70,9 +70,6 @@ var Table = {
     },
 }
 
-
-
-
 $(function () {
 
     //1.初始化Table
@@ -84,8 +81,6 @@ $(function () {
     oButtonInit.Init();
 
 });
-
-
 
 //bootstrap table Button的点击事件
 var ButtonInit = function () {
@@ -173,7 +168,7 @@ window.operateEvents = {
             title: '编辑',
             maxmin: true,
             shadeClose: true, //点击遮罩关闭层
-            area : ['800px' , '520px'],
+            area : ['2000px' , '520px'],
             content: '/admin/'+controller_path+'/edit/id/'+row.id,
             end: function () {
                 $("#tb_departments").bootstrapTable('refresh');
@@ -223,12 +218,12 @@ function getWhetherStatus(value, row, index) {
     };
 }
 
-//Icon显示
+//Icon图标显示
 function getIconShow(value, row, index) {
     return '<i class="'+value+'"></i>';
 }
 
-//Icon显示
+//Label显示
 function getLabels(value, row, index) {
     var lavelArr = new Array();
     var arr=value.split(',');
@@ -236,6 +231,11 @@ function getLabels(value, row, index) {
         lavelArr.push('<span class="label label-primary">'+arr[i]+'</span> ');
     }
     return lavelArr.join("");
+}
+
+//images显示
+function getImageShow(value, row, index) {
+    return '<img src="'+value+'" width=50 height=50></i>';
 }
 
 

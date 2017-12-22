@@ -24,12 +24,10 @@
         <label class="control-label col-xs-12 col-sm-2">文章缩略图：</label>
         <div class="col-xs-12 col-sm-8 ">
             <input type="file" class="file" id="upload-pic" name="upload" accept="image/*">
-            <input type="hidden" id="h-pic" name="row[pic]" value="{$row.pic}">
+            <input type="hidden" id="h-pic" name="row[pic]" value="{$row.pic}" data-rule="required">
         </div>
         <div id="errorBlock" class="help-block"></div>
-    </div>
-
-    
+    </div> 
 
     <div class="form-group">
         <label for="c-remark" class="control-label col-xs-12 col-sm-2">文章内容：</label>
@@ -85,9 +83,11 @@
 <script src="__STATIC__/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- fileinput -->
 <script src="__STATIC__/libs/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="__STATIC__/libs/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
 <script src="__STATIC__/libs/bootstrap-fileinput/js/locales/zh.js"></script>
 
 <script>
+    //编辑器
     $(function () {
         CKEDITOR.replace('ck_editor', {   
             height: 350,   
@@ -101,7 +101,9 @@
         $("#btn_submit").click(function () {
             $("#ck_editor").val(getContenet());
         });
-    })
+    });
+
+    var url1 = '{$row.pic}';
 
     $("#upload-pic").fileinput({
         language: "zh",
@@ -109,12 +111,23 @@
         uploadUrl: "/admin/ajax/fileInputUpload",
         overwriteInitial: false,
         required: true,
+        maxFilesNum:1, //表示允许同时上传的最大文件个数
         allowedFileExtensions: ["jpg", "png", "gif"],
-        showPreview: false,
+        showUpload: false, //是否显示上传按钮
+        deleteUrl: "/admin/ajax/picdel",
+        maxFileSize:2097152,
+        initialPreview: [url1],
+        initialPreviewAsData: true,
+        initialPreviewConfig: [{key: 1}],
+        layoutTemplates :{
+            actionDelete:'', //去除上传预览的缩略图中的删除图标
+            //actionUpload:'',//去除上传预览缩略图中的上传图片；
+            //actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+        },
 
+        //showPreview: false,
         // uploadExtraData:{"id": 1, "fileName":'123.mp3'},
         // uploadAsync: true, //默认异步上传
-        // showUpload:true, //是否显示上传按钮
         // showRemove :true, //显示移除按钮
         // showPreview :true, //是否显示预览
         // showCaption:false,//是否显示标题

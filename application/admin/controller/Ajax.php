@@ -84,22 +84,19 @@ class Ajax extends Backend
 
 
     /**
-     *  上传图片
+     *  CKEDITOR上传图片
      */
     public function ckUpload(){
 
-        $cknum = Request::instance()->param('CKEditorFuncNum');
-   
+        $fileType = 'images';
 
-        // 获取表单上传文件 例如上传了001.jpg
+        $cknum = Request::instance()->param('CKEditorFuncNum');
+
         $file = request()->file('upload');
-        // 移动到框架应用根目录/public/uploads/ 目录下
-        $info = $file->validate(['size'=>1024*1024*2,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+        // 上传图片处理
+        $info = self::fileSave($file,$fileType);
         if($info){
-            $savePath = DS."uploads".DS.$info->getSaveName();
-            if(IS_WIN){
-                $savePath = str_replace('\\', '/', $savePath);
-            }
+            $savePath = self::fileShowPath($fileType,$info->getSaveName());
             // 成功上传后 获取上传信息
             echo "<script>window.parent.CKEDITOR.tools.callFunction(".$cknum.", '".$savePath."', '');</script>";
         }else{
@@ -110,30 +107,89 @@ class Ajax extends Backend
 
 
     /**
-     *  上传图片
+     *  fileInput上传图片
      */
     public function fileInputUpload(){
-
-
-        // 获取表单上传文件 例如上传了001.jpg
+        $fileType = 'images';
         $file = request()->file('upload');
         // 移动到框架应用根目录/public/uploads/ 目录下
-        $fileSavePath = ROOT_PATH . 'public' . DS . 'uploads';
-        $validate = [
-            'size'=>1024*1024*2,
-            'ext'=>'jpg,png,gif'
-        ];
-        $info = $file->validate($validate)->move($fileSavePath);
+         // 上传图片处理
+        $info = self::fileSave($file,$fileType);
         if($info){
-            $savePath = DS."uploads".DS.$info->getSaveName();
-            if(IS_WIN){
-                $savePath = str_replace('\\', '/', $savePath);
-            }
+            $savePath = self::fileShowPath($fileType,$info->getSaveName());
             return ['pic_url' => $savePath];
         }else{
             return ['0'=>$file->getError()];
         }
     }
+
+
+    /**
+     *  文件上传保存地址
+     *  $type string 上传文件类型
+     */
+    private function fileSavePath($type){
+        $path = ROOT_PATH . 'public' . DS . 'uploads'. DS.$type. DS;
+        return $path;
+    } 
+
+    /**
+     *  文件显示地址
+     *  $type string 上传文件类型
+     *  $path string 文件保存位置
+     */
+    private function fileShowPath($type,$path){
+        $path = DS . 'uploads'. DS.$type. DS.$path;
+        if(IS_WIN){
+            $path = str_replace('\\', '/', $path);
+        }
+        return $path;
+    } 
+
+
+    /**
+     *  文件上传处理
+     *  $type string 上传文件对象
+     *  $type string 上传文件类型
+     */
+    private function fileSave($file,$type){
+        switch ($type) {
+            case 'images':
+                $validate = self::imageValidate();
+                break;
+            
+            default:
+                $validate = [];
+                break;
+        }
+        $savePath = self::fileSavePath($type);
+        $info = $file->validate($validate)->move($savePath);
+        return $info;
+    } 
+
+
+    /**
+     *  图片验证规则
+     */
+    private function imageValidate(){
+        $validate = [
+            'size'=>1024*1024*2,
+            'ext'=>'jpg,png,gif',
+        ];
+        return $validate;
+    } 
+
+
+    /**
+     *  WINDOWS系统文件地址转换
+     *  $path string 待转换地址
+     */
+    private function winPathReplace($path){
+        if(IS_WIN){
+            $path = str_replace('\\', '/', $path);
+        }
+        return $path;
+    } 
 
 
 
