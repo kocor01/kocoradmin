@@ -63,9 +63,83 @@ var Table = {
         ],
     },
 
-    api: {
+    Api: {
         init: function(){
             return "gfdh";
+        },
+        //注册按钮事件
+        OperateEvents: {
+            //编辑
+            "click #tableEditor" : function(e,value,row,index){
+                layer.open({
+                    type: 2,
+                    title: '编辑',
+                    maxmin: true,
+                    shadeClose: true, //点击遮罩关闭层
+                    area : ['800px' , '520px'],
+                    content: '/admin/'+controller_path+'/edit/id/'+row.id,
+                    end: function () {
+                        $("#tb_departments").bootstrapTable('refresh');
+                    }
+                });
+            },
+            //删除
+            "click #tableDelete" : function(e,value,row,index){
+                layer.confirm('确认要删除选择的数据吗？', {btn: ['确定','取消']}, function(){
+
+                    var ids = row.id;
+                    $.ajax({ url: '/admin/'+controller_path+'/del/ids/'+ids, success: function(result){
+                        if(result.status == 1){
+                            layer.alert(result.msg,{icon: 1});
+                        }else{
+                            layer.alert(result.msg,{icon: 2});
+                        }
+                        $("#tb_departments").bootstrapTable('refresh');
+                    }});
+                });
+            }
+        },
+        //自定义方法，添加操作按钮
+        OperateFormatter: function(value, row, index) {
+            return [
+                '<a href="javascript:;" class="btn btn-xs btn-success" id="tableEditor"><i class="fa fa-pencil"></i></a> ',
+                '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i></a>',
+            ].join('');
+        },
+        formatter:{
+            //图标
+            Icon:function(value, row, index) {
+                return '<i class="'+value+'"></i>';
+            },
+            //Label显示
+            Label:function(value, row, index) {
+                var lavelArr = new Array();
+                var arr=value.split(',');
+                for(var i=0;i<arr.length;i++){
+                    lavelArr.push('<span class="label label-primary">'+arr[i]+'</span> ');
+                }
+                return lavelArr.join("");
+            },
+            //Status显示  正常、禁止
+            DefaultStatus:function(value, row, index) {
+                if(value ==1 || value =='正常'){
+                    return '<span class="label label-success">正常</span>';
+                }else{
+                    return '<span class="label label-danger">禁止</span>';
+                };
+            },
+            //Status显示  是、否
+            OtherStatus:function(value, row, index) {
+                if(value ==1 || value =='正常'){
+                    return '<span class="label label-info">是</span>';
+                }else{
+                    return '<span class="label label-default">否</span>';
+                };
+            },
+            //images显示
+            Image:function(value, row, index) {
+                return '<img src="'+value+'" width=50 height=50></i>';
+            },
         }
     },
 }
@@ -85,7 +159,6 @@ $(function () {
 //bootstrap table Button的点击事件
 var ButtonInit = function () {
     var oInit = new Object();
-    var postdata = {};
 
     oInit.Init = function () {
         $("#btn_add").click(function () {
@@ -150,92 +223,11 @@ var ButtonInit = function () {
     return oInit;
 };
 
-
-//bootstrap table 操作按钮
-function operateFormatter(value, row, index) {
-    return [
-        '<a href="javascript:;" class="btn btn-xs btn-success" id="tableEditor"><i class="fa fa-pencil"></i></a> ',
-        '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i></a>',
-    ].join('');
-}
-
-//bootstrap table 操作按钮事件
-window.operateEvents = {
-    //编辑
-    "click #tableEditor" : function(e,value,row,index){
-        layer.open({
-            type: 2,
-            title: '编辑',
-            maxmin: true,
-            shadeClose: true, //点击遮罩关闭层
-            area : ['2000px' , '520px'],
-            content: '/admin/'+controller_path+'/edit/id/'+row.id,
-            end: function () {
-                $("#tb_departments").bootstrapTable('refresh');
-            }
-        });
-    },
-    //删除
-    "click #tableDelete" : function(e,value,row,index){
-        layer.confirm('确认要删除选择的数据吗？', {btn: ['确定','取消']}, function(){
-
-            var ids = row.id;
-            $.ajax({ url: '/admin/'+controller_path+'/del/ids/'+ids, success: function(result){
-                if(result.status == 1){
-                    layer.alert(result.msg,{icon: 1});
-                }else{
-                    layer.alert(result.msg,{icon: 2});
-                }
-                $("#tb_departments").bootstrapTable('refresh');
-            }});
-        });
-    }
-}
-
 //获取多选框ID
 function getIdSelections() {
     return $.map($("#tb_departments").bootstrapTable('getSelections'), function (row) {
         return row.id;
     });
-}
-
-
-//Status显示
-function getDefaultStatus(value, row, index) {
-    if(value ==1 || value =='正常'){
-        return '<span class="label label-success">正常</span>';
-    }else{
-        return '<span class="label label-danger">禁止</span>';
-    };
-}
-
-//Status显示
-function getWhetherStatus(value, row, index) {
-    if(value ==1 || value =='正常'){
-        return '<span class="label label-info">是</span>';
-    }else{
-        return '<span class="label label-default">否</span>';
-    };
-}
-
-//Icon图标显示
-function getIconShow(value, row, index) {
-    return '<i class="'+value+'"></i>';
-}
-
-//Label显示
-function getLabels(value, row, index) {
-    var lavelArr = new Array();
-    var arr=value.split(',');
-    for(var i=0;i<arr.length;i++){
-        lavelArr.push('<span class="label label-primary">'+arr[i]+'</span> ');
-    }
-    return lavelArr.join("");
-}
-
-//images显示
-function getImageShow(value, row, index) {
-    return '<img src="'+value+'" width=50 height=50></i>';
 }
 
 

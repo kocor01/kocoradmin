@@ -22,55 +22,53 @@ var TableInit = function () {
         columns: [
             {checkbox: true}, 
             {field:'id',title:'ID', align:'center',titleTooltip:"就是标题提示啦"}, 
-            {field:'title',title:'标题',formatter: getTitleStr}, 
-            {field:'name',title:'规则名称',formatter: getNameStr}, 
+            {field:'title',title:'标题',formatter: Formatter.Api.TitleStr}, 
+            {field:'name',title:'规则名称',formatter: Formatter.Api.NameStr}, 
             {field:'condition',title:'规则条件'}, 
-            {field:'icon',title:'图标', align:'center', formatter: getIconShow}, 
+            {field:'icon',title:'图标', align:'center', formatter: Table.Api.formatter.Icon}, 
             {field:'weigh',title:'权重', align:'center'}, 
-            {field:'is_menu', title:'菜单', align:'center', width:'60px', sortable:true, formatter: getWhetherStatus},
-            {field:'id', title:'<a href="javascript:;" class="btn btn-success btn-xs btn-toggle"><i class="fa fa-chevron-up"></i></a>', align:'center', width:'60px', formatter: getSubNode},
-            {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
+            {field:'is_menu', title:'菜单', align:'center', width:'60px', sortable:true, formatter: Table.Api.formatter.OtherStatus},
+            {field:'id', title:'<a href="javascript:;" class="btn btn-success btn-xs btn-toggle"><i class="fa fa-chevron-up"></i></a>', align:'center', width:'60px', formatter: Formatter.Api.SubNode},
+            {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: Table.Api.formatter.DefaultStatus},
             {
                 field: 'operate',
                 title: '操作',
-                events: operateEvents,  //注册按钮事件
-                formatter: operateFormatter //自定义方法，添加操作按钮
+                events: Table.Api.OperateEvents,  //注册按钮事件
+                formatter: Table.Api.OperateFormatter //自定义方法，添加操作按钮
             }
         ]
     }
 
-    var result = $.extend( true,{},Table.defaults,table_config);
+    var config = $.extend( true,{},Table.defaults,table_config);
 
     //初始化Table
     oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable(result);
+        $('#tb_departments').bootstrapTable(config);
     };
     return oTableInit;
 };
 
-
-//Status显示
-function getTitleStr(value, row, index) {
-    if(row['has_child']==1){
-        return '<span style="">'+value+'</span>';
-    }else{
-        return '<span style="color:#999">'+value+'</span>';
+var Formatter = {
+    Api:{
+        TitleStr:function(value, row, index) {
+            if(row['has_child']==1){
+                return '<span style="">'+value+'</span>';
+            }else{
+                return '<span style="color:#999">'+value+'</span>';
+            }
+        },
+        NameStr:function(value, row, index) {
+            if(row['has_child']==1){
+                return '<span style="">'+value+'</span>';
+            }else{
+                return '<span style="color:#999">'+value+'</span>';
+            }
+        },
+        SubNode:function(value, row, index) {
+            return '<a href="javascript:;" data-id="' + row['id'] + '" data-pid="' + row['pid'] + '" class="btn btn-xs '+ (row['has_child'] == 1 ? 'btn-success' : 'btn-default disabled') + ' btn-node-sub"><i class="fa fa-sitemap"></i></a>';
+        }
     }
-}
-//Status显示
-function getNameStr(value, row, index) {
-    if(row['has_child']==1){
-        return '<span style="">'+value+'</span>';
-    }else{
-        return '<span style="color:#999">'+value+'</span>';
-    }
-}
-
-//Status显示
-function getSubNode(value, row, index) {
-    return '<a href="javascript:;" data-id="' + row['id'] + '" data-pid="' + row['pid'] + '" class="btn btn-xs '+ (row['has_child'] == 1 ? 'btn-success' : 'btn-default disabled') + ' btn-node-sub"><i class="fa fa-sitemap"></i></a>';
-}
-
+};
 
 //默认隐藏所有子节点
 $("#tb_departments").on('post-body.bs.table', function (e, settings, json, xhr) {

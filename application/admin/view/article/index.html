@@ -21,24 +21,24 @@ var TableInit = function () {
             {field:'id',title:'ID'}, 
             {field:'title',title:'标题'}, 
             {field:'article_cate.name',title:'分类'}, 
-            {field:'pic',title:'栏目缩略图',formatter: getImageShow}, 
+            {field:'pic',title:'栏目缩略图',formatter: Table.Api.formatter.Image}, 
             {field:'weigh',title:'权重'}, 
-            {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: getDefaultStatus},
+            {field:'status', title:'状态', align:'center', width:'60px', sortable:true, formatter: Table.Api.formatter.DefaultStatus},
             {field:'update_time',title:'更新时间'}, 
             {
                 field: 'operate',
                 title: '操作',
-                events: operateEvents,  //注册按钮事件
-                formatter: operateFormatter //自定义方法，添加操作按钮
+                events: Table.Api.OperateEvents,  //注册按钮事件
+                formatter: Table.Api.OperateFormatter //自定义方法，添加操作按钮
             }
         ]
     }
 
-    var result = $.extend( true,{},Table.defaults,table_config);
+    var config = $.extend( true,{},Table.defaults,table_config);
 
     //初始化Table
     oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable(result);
+        $('#tb_departments').bootstrapTable(config);
     };
     return oTableInit;
 };
