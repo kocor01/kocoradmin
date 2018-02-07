@@ -19,7 +19,8 @@ class Login extends Validate
      */
     protected $rule = [
 	    'user_name'  => 'require|max:100',
-	    'password'   => 'require|max:100',
+        'password'   => 'require|max:100',
+        'captcha'   => 'require|captcha',
     ];
     /**
      * 提示消息
@@ -29,6 +30,8 @@ class Login extends Validate
 	    'user_name.max'     => '用户名最多不能超过100个字符',
 	    'password.require'   => '密码必须',
 	    'age.between'  => '用密码最多不能超过100个字符',
+        'captcha.require'   => '验证码必须',
+        'captcha.captcha'   => '验证码不正确',
     ];
 
     /**

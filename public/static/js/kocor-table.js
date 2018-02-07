@@ -6,13 +6,20 @@
 // | Author: Kocor <502117269@qq.com>
 // +----------------------------------------------------------------------
 
+document.write("<link rel='stylesheet' href='/static/libs/bootstrap-table/dist/bootstrap-table.min.css'>"); 
+document.write("<script src='/static/libs/bootstrap-table/dist/bootstrap-table.js'><\/script>"); 
+document.write("<script src='/static/libs/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js'><\/script>"); 
+document.write("<script src='/static/libs/bootstrap-table/dist/extensions/export/bootstrap-table-export.js'><\/script>"); 
+document.write("<script src='/static/libs/tableExport.jquery.plugin/tableExport.min.js'><\/script>"); 
+
+
 //获取url组成参数
 var controller_path = $('#tb_departments').attr('data-controller-path');
 
 var Table = {
 
     // Bootstrap-table 基础配置
-    defaults: {
+    Defaults: {
         url: '/admin/'+controller_path+'/index',         //请求后台的URL（*）
         method: 'post',                      //请求方式（*）
         undefinedText: "-",    //当数据为 undefined 时显示的字符
@@ -58,14 +65,19 @@ var Table = {
 
         //列配置项,
         columns: [
-            {checkbox: true}, 
+            {checkbox: false}, 
             {field:'id',title:'ID',titleTooltip:"ID"}, 
         ],
     },
-
+    //接口
     Api: {
-        init: function(){
-            return "gfdh";
+        Init: function(CtrlName,TableConfig){
+            var TableConfig = $.extend( true,{},Table.Defaults,TableConfig);
+            $('#'+CtrlName).bootstrapTable(TableConfig);
+
+            //初始化Button的点击事件
+            var oButtonInit = new ButtonInit();
+            oButtonInit.Init();
         },
         //注册按钮事件
         OperateEvents: {
@@ -144,17 +156,6 @@ var Table = {
     },
 }
 
-$(function () {
-
-    //1.初始化Table
-    var oTable = new TableInit();
-    oTable.Init();
-
-    //2.初始化Button的点击事件
-    var oButtonInit = new ButtonInit();
-    oButtonInit.Init();
-
-});
 
 //bootstrap table Button的点击事件
 var ButtonInit = function () {
@@ -229,5 +230,6 @@ function getIdSelections() {
         return row.id;
     });
 }
+
 
 

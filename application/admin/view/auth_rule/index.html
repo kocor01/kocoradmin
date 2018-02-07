@@ -13,10 +13,10 @@
 <script src="__JS__/kocor-table.js"></script>
 
 <script>
-var TableInit = function () {
-    var oTableInit = new Object();
 
-    var table_config = {
+$(function(){
+
+    var TableConfig = {
         sortOrder: "asc",    //定义排序方式 'asc' 或者 'desc'
         pagination: false,    //设置为 true 会在表格底部显示分页条
         columns: [
@@ -37,16 +37,10 @@ var TableInit = function () {
                 formatter: Table.Api.OperateFormatter //自定义方法，添加操作按钮
             }
         ]
-    }
-
-    var config = $.extend( true,{},Table.defaults,table_config);
-
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable(config);
     };
-    return oTableInit;
-};
+    Table.Api.Init('tb_departments',TableConfig);
+});
+
 
 var Formatter = {
     Api:{

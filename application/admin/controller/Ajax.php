@@ -125,13 +125,31 @@ class Ajax extends Backend
 
 
     /**
+     *  fileInput删除图片
+     */
+    public function fileInputDelete(){
+        return 1;
+    }
+
+
+    /**
+     *  文件上传保存基础地址
+     */
+    private function fileSaveBathPath($type){
+        $path = DS . 'uploads'. DS.$type. DS;
+        return $path;
+    } 
+
+
+    /**
      *  文件上传保存地址
      *  $type string 上传文件类型
      */
     private function fileSavePath($type){
-        $path = ROOT_PATH . 'public' . DS . 'uploads'. DS.$type. DS;
+        $path = ROOT_PATH . 'public' . self::fileSaveBathPath($type);
         return $path;
     } 
+
 
     /**
      *  文件显示地址
@@ -139,7 +157,7 @@ class Ajax extends Backend
      *  $path string 文件保存位置
      */
     private function fileShowPath($type,$path){
-        $path = DS . 'uploads'. DS.$type. DS.$path;
+        $path = self::fileSaveBathPath($type).$path;
         if(IS_WIN){
             $path = str_replace('\\', '/', $path);
         }
@@ -177,18 +195,6 @@ class Ajax extends Backend
             'ext'=>'jpg,png,gif',
         ];
         return $validate;
-    } 
-
-
-    /**
-     *  WINDOWS系统文件地址转换
-     *  $path string 待转换地址
-     */
-    private function winPathReplace($path){
-        if(IS_WIN){
-            $path = str_replace('\\', '/', $path);
-        }
-        return $path;
     } 
 
 

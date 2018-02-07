@@ -12,10 +12,7 @@
 <script src="__JS__/kocor-table.js"></script>
 
 <script>
-var TableInit = function () {
-    var oTableInit = new Object();
-
-    var table_config = {
+    var TableConfig = {
         columns: [
             {checkbox: true}, 
             {field:'id',title:'ID',titleTooltip:"就是标题提示啦"}, 
@@ -36,13 +33,5 @@ var TableInit = function () {
             }
         ]
     }
-
-    var config = $.extend( true,{},Table.defaults,table_config);
-
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable(config);
-    };
-    return oTableInit;
-};
+    Table.Api.Init('tb_departments',TableConfig);
 </script>

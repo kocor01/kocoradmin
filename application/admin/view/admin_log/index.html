@@ -1,7 +1,5 @@
 <div class="panel-body">
     <div id="toolbar" class="toolbar">
-        <a href="javascript:;" class="btn btn-success" id="btn_add"><i class="fa fa-plus"></i> 添加</a> 
-        <a href="javascript:;" class="btn btn-success" id="btn_edit"><i class="fa fa-pencil"></i> 编辑</a> 
         <a href="javascript:;" class="btn btn-danger" id="btn_del"><i class="fa fa-trash"></i> 删除</a>                      
     </div>
 
@@ -13,10 +11,55 @@
 <script src="__JS__/kocor-table.js"></script>
 
 <script>
-var TableInit = function () {
-    var oTableInit = new Object();
 
-    var table_config = {
+    var Formatter = {
+        Api:{
+            Useragent:function(value, row, index) {
+                return value.split(" ")[0];
+            },
+            //注册按钮事件
+            OperateEvents: {
+                //编辑
+                "click #tableView" : function(e,value,row,index){
+                    layer.open({
+                        type: 2,
+                        title: '编辑',
+                        maxmin: true,
+                        shadeClose: true, //点击遮罩关闭层
+                        area : ['800px' , '520px'],
+                        content: '/admin/'+controller_path+'/view/id/'+row.id,
+                        end: function () {
+                            $("#tb_departments").bootstrapTable('refresh');
+                        }
+                    });
+                },
+                //删除
+                "click #tableDelete" : function(e,value,row,index){
+                    layer.confirm('确认要删除选择的数据吗？', {btn: ['确定','取消']}, function(){
+
+                        var ids = row.id;
+                        $.ajax({ url: '/admin/'+controller_path+'/del/ids/'+ids, success: function(result){
+                            if(result.status == 1){
+                                layer.alert(result.msg,{icon: 1});
+                            }else{
+                                layer.alert(result.msg,{icon: 2});
+                            }
+                            $("#tb_departments").bootstrapTable('refresh');
+                        }});
+                    });
+                }
+            },
+            //自定义方法，添加操作按钮
+            OperateFormatter: function(value, row, index) {
+                return [
+                    '<a href="javascript:;" class="btn btn-xs btn-info" id="tableView"><i class="fa fa-list"></i> 详情</a> ',
+                    '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i></a>',
+                ].join('');
+            },
+        },
+    };
+
+    var TableConfig = {
         columns: [
             {checkbox: true}, 
             {field:'id',title:'ID', align:'center',titleTooltip:"就是标题提示啦"}, 
@@ -33,63 +76,7 @@ var TableInit = function () {
                 formatter: Formatter.Api.OperateFormatter //自定义方法，添加操作按钮
             }
         ]
-    }
-
-    var config = $.extend( true,{},Table.defaults,table_config);
-
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable(config);
     };
-    return oTableInit;
-};
 
-var Formatter = {
-    Api:{
-        Useragent:function(value, row, index) {
-            return value.split(" ")[0];
-        },
-        //注册按钮事件
-        OperateEvents: {
-            //编辑
-            "click #tableView" : function(e,value,row,index){
-                layer.open({
-                    type: 2,
-                    title: '编辑',
-                    maxmin: true,
-                    shadeClose: true, //点击遮罩关闭层
-                    area : ['800px' , '520px'],
-                    content: '/admin/'+controller_path+'/view/id/'+row.id,
-                    end: function () {
-                        $("#tb_departments").bootstrapTable('refresh');
-                    }
-                });
-            },
-            //删除
-            "click #tableDelete" : function(e,value,row,index){
-                layer.confirm('确认要删除选择的数据吗？', {btn: ['确定','取消']}, function(){
-
-                    var ids = row.id;
-                    $.ajax({ url: '/admin/'+controller_path+'/del/ids/'+ids, success: function(result){
-                        if(result.status == 1){
-                            layer.alert(result.msg,{icon: 1});
-                        }else{
-                            layer.alert(result.msg,{icon: 2});
-                        }
-                        $("#tb_departments").bootstrapTable('refresh');
-                    }});
-                });
-            }
-        },
-        //自定义方法，添加操作按钮
-        OperateFormatter: function(value, row, index) {
-            return [
-                '<a href="javascript:;" class="btn btn-xs btn-info" id="tableView"><i class="fa fa-list"></i> 详情</a> ',
-                '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i></a>',
-            ].join('');
-        },
-    },
-};
-
-
+    Table.Api.Init('tb_departments',TableConfig);
 </script>

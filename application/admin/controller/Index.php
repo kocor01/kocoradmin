@@ -20,7 +20,7 @@ class Index extends Backend
 {
 
 	//无需登录方法
-	protected $noNeedLogin = ['login','nopermissions'];
+	protected $noNeedLogin = ['login','nopermissions','captcha_src'];
 
 	//无需鉴权方法
 	protected $noNeedAuth = ['index','loginout'];
@@ -77,10 +77,12 @@ class Index extends Backend
 			$user_name = $this->request->post('user_name');
 			$password = $this->request->post('password');
 			$remember = $this->request->post('remember');
+			$captcha = $this->request->post('captcha');
 
 			$data = [
 			    'user_name'  => $user_name,
 			    'password'   => $password,
+			    'captcha'   => $captcha,
 			];
 
 			$result   = $this->validate->check($data);
@@ -96,6 +98,14 @@ class Index extends Backend
 		}
 
 		return $this->fetch('');
+	}
+
+
+	/**
+	 *  验证码
+	 */
+	public function captcha_src(){
+		return captcha_img();
 	}
 
 

@@ -11,6 +11,8 @@ return array (
   'sitename' => 'kocol管理系统',
   'keyword' => 'kocol，管理系统',
   'description' => 'kocol管理系统，为自己开发系统',
+  'beian' => '粤45356612345号',
+  'sgsggs' => '',
 );
 
 ?>

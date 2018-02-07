@@ -6,49 +6,7 @@
 // | Author: Kocor <502117269@qq.com>
 // +----------------------------------------------------------------------
 
-//------------图标选择 START--------------
 
-//图标选择页面
-var iconlist = [];
-$(document).on('click', ".btn-search-icon", function () {
-    if (iconlist.length == 0) {
-        $.get("/static/libs/font-awesome/less/variables.less", function (ret) {
-
-            var exp = /fa-var-(.*):/ig;
-            var result;
-            while ((result = exp.exec(ret)) != null) {
-                iconlist.push(result[1]);
-            }
-            layer.open({
-                type: 1,
-                area: ['460px', '300px'], //宽高
-                content: template('chooseicontpl', {iconlist: iconlist})
-            });
-        });
-    } else {
-        layer.open({
-            type: 1,
-            area: ['460px', '300px'], //宽高
-            content: template('chooseicontpl', {iconlist: iconlist})
-        });
-    }
-});
-
-//图标选择
-$(document).on('click', '#chooseicon ul li', function () {
-    $("input[name='row[icon]']").val('fa fa-' + $(this).data("font"));
-    layer.closeAll();
-});
-
-//打开图标选择页面
-$(document).on('keyup', 'input.js-icon-search', function () {
-    $("#chooseicon ul li").show();
-    if ($(this).val() != '') {
-        $("#chooseicon ul li:not([data-font*='" + $(this).val() + "'])").hide();
-    }
-});
-
-//------------图标选择 END--------------
 
 
 //jquery.validator.min.js配置
