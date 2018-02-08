@@ -15,7 +15,7 @@ use app\admin\model\Login;
 use kocor\Tree;
 use app\admin\validate\Login as validateLogin;
 use app\admin\controller\Backend;
-use tp5er\Backup as BackupModel;
+use kocor\Backup as BackupModel;
 
 class Database extends Backend
 {

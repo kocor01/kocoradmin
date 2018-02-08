@@ -66,15 +66,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kocor01/tp5_databackup.git",
-                "reference": "18087216453c1c1f85eed23ebb9639048c73b666"
+                "reference": "4a8b6464cead52f634a0400b17430e1cdb66ffeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kocor01/tp5_databackup/zipball/18087216453c1c1f85eed23ebb9639048c73b666",
-                "reference": "18087216453c1c1f85eed23ebb9639048c73b666",
+                "url": "https://api.github.com/repos/kocor01/tp5_databackup/zipball/4a8b6464cead52f634a0400b17430e1cdb66ffeb",
+                "reference": "4a8b6464cead52f634a0400b17430e1cdb66ffeb",
                 "shasum": ""
             },
             "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "kocor\\": "src/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -86,7 +91,7 @@
                 }
             ],
             "description": "THINKPHP5",
-            "time": "2018-02-08T03:57:46+00:00"
+            "time": "2018-02-08T08:26:04+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
