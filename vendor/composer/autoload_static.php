@@ -18,7 +18,6 @@ class ComposerStaticInit0e5a20f54bf215fd957bc14489129d05
     public static $prefixLengthsPsr4 = array (
         't' => 
         array (
-            'tp5er\\' => 6,
             'think\\testing\\' => 14,
             'think\\mongo\\' => 12,
             'think\\migration\\' => 16,
@@ -53,10 +52,6 @@ class ComposerStaticInit0e5a20f54bf215fd957bc14489129d05
     );
 
     public static $prefixDirsPsr4 = array (
-        'tp5er\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/tp5er/tp5-databackup/src',
-        ),
         'think\\testing\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-testing/src',
@@ -87,15 +82,15 @@ class ComposerStaticInit0e5a20f54bf215fd957bc14489129d05
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/thinkphp/library/think',
-            1 => __DIR__ . '/..' . '/topthink/think-image/src',
-            2 => __DIR__ . '/..' . '/topthink/think-queue/src',
+            0 => __DIR__ . '/..' . '/topthink/think-image/src',
+            1 => __DIR__ . '/..' . '/topthink/think-queue/src',
+            2 => __DIR__ . '/../..' . '/thinkphp/library/think',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            0 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
         ),
         'Webmozart\\Assert\\' => 
         array (

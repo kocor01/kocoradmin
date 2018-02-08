@@ -25,7 +25,7 @@
         "topthink/think-mongo": "1.7",
         "topthink/think-captcha": "^1.0",
         "topthink/think-angular": "^1.0",
-        "tp5er/tp5-databackup": "dev-master"
+        "kocor/tp5-databackup": "dev-master"
     },
     "extra": {
         "think-path": "thinkphp"
