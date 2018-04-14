@@ -10,10 +10,12 @@
 
 	<!-- 主体页面面包屑导航 -->
 	<section class="content-header">
-		<h1>管理标题<small>管理副标题</small></h1>
+		<h1>{$breadCrumbs.title}<small>{$breadCrumbs.remark}</small></h1>
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-dashboard"></i> 系统首页</a></li>
-			<li class="active">标题</li>
+			<li><a href="#"><i class="fa fa-dashboard"></i> 系统主页</a></li>
+			{foreach name="breadCrumbs.list" item="vo" key="k" }
+	        	<li class="active">{$vo.title}</li>
+	        {/foreach}
 		</ol>
 	</section>
 

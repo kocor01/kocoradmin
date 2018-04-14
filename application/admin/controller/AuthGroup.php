@@ -9,7 +9,6 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use think\Db;
 use think\Request;
 use kocor\Tree;
 use app\admin\model\AuthRule;
@@ -28,6 +27,7 @@ class AuthGroup extends Backend
 
     public function _initialize()
     {
+        $this->request->filter(['strip_tags']);     //设置过滤方法
         parent::_initialize();
 		$this->tree = new Tree;
     }

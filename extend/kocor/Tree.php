@@ -90,9 +90,34 @@ class Tree {
         return $newarr ? $newarr : false;  
     }
   
+    /** 
+    * 得到所有父级数组 
+    * @param int 
+    * @param bool  是否包含自己 
+    * @return array 
+    */  
+    public function get_parents($myid,$is_self = false){
+
+        foreach ($this->arr as $key => $value) {
+            if($value['id'] == $myid){
+                $pid = $value[$this->pid_str];
+                if($is_self == true){
+                    $this->newarr[] = $value;
+                }
+                break;
+            }
+        }
+
+        if($pid){
+            $this->get_parents($pid,true);
+        }
+        
+        return $this->newarr;  
+    }  
+  
   
     /** 
-    * 得到所有子级数组 
+    * 得到所有子级数组ID
     * @param int 
     * @param bool  是否包含自己 
     * @return array 
@@ -105,8 +130,6 @@ class Tree {
         if(is_array($child)){ 
             foreach($child as $key=>$value){   
                 $this->newarr[] = $value['id'];
-                //print_r($child);
-                //echo $value['id'];exit;
                 $this->get_child_id($value['id'],false);
             }
         }
@@ -286,7 +309,43 @@ class Tree {
         }  
         if(!$recursion)  $this->str .='</ul>';  
         return $this->str;  
+    }   
+      
+    /** 
+     * AdminLTE左侧菜单风格
+     * @param $myid 表示获得这个ID下的所有子级 
+     * @param $active 计算当前层级，递归使用 适用改函数时不需要用该参数 
+     * @param $recursion 递归使用 外部调用时为FALSE 
+     */  
+    function get_treemenu($myid,$active=true,$recursion=false) {  
+        $str = '';
+
+        $child = $this->get_child($myid);
+        if(is_array($child)){
+            foreach($child as $key=>$value) { 
+
+                if($active == true){
+                    $liactive = 'active';
+                    $active = false;
+                }else{
+                    $liactive = '';
+                } 
+
+                if($this->get_child($value['id'])){
+                    $str .= '<li class="'.$liactive.' treeview"><a href="javascript:;"><i class="'.$value['icon'].'"></i> <span>'.$value['title'].'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                    $str .= $this->get_treemenu($value['id'],$active,true);
+                }else{
+                    $str .= '<li class="'.$liactive.'"><a href="javascript:;" data-addtab="'.$value['id'].'" data-url="/admin/'.$value['name'].'.html"><i class="'.$value['icon'].'"></i> <span>'.$value['title'].'</span></a>';
+                }
+                $str .= '</li>';
+            }  
+        }
+
+        return ($str && $recursion)?'<ul class="treeview-menu">'.$str.'</ul>' : $str;
     }  
+
+
+
       
     /** 
      * 获取子栏目json 

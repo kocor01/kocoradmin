@@ -1,0 +1,97 @@
+<div class="panel-body">
+    <table id="tb_departments" data-show-export="true" data-controller-path="database"></table>
+</div>
+
+
+<script src="__JS__/kocor-table.js"></script>
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+<script src="http://issues.wenzhixin.net.cn/bootstrap-table/assets/bootstrap-table/src/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
+
+<script>
+
+    var Formatter = {
+        Api:{
+            NameStr:function(value, row, index) {
+                if(row.pid == 0){
+                    return value;
+                }else{
+                    return value+'-'+(row.num+1);
+                }
+            },
+            //注册按钮事件
+            OperateEvents: {
+                //还原
+                "click #tableImport" : function(e,value,row,index){
+                    layer.confirm('确认要还原数据备份吗？', {btn: ['还原','取消']}, function(){
+                        layer.msg('正在还原，请勿关闭窗口！<br/>可能需要几分钟，请耐心等待！',{time: 3600000}); 
+                        $(location).attr('href', '/admin/database/import/time/'+row.time+'/compress/'+row.compress+'/part/0');
+                    });
+                },
+                //删除
+                "click #tableDelete" : function(e,value,row,index){
+                    layer.confirm('确认要删除数据备份吗？', {btn: ['删除','取消']}, function(){
+                        $(location).attr('href', '/admin/database/del/time/'+row.time);
+                    });
+                },
+                //下载
+                "click #tableDownload" : function(e,value,row,index){
+                    $(location).attr('href', '/admin/database/download/time/'+row.time+'/part/'+row.num);
+                }
+            },
+            //自定义方法，添加操作按钮
+            OperateFormatter: function(value, row, index) {
+                if(row.pid == 0){
+                    if(row.part > 1){
+                        return [
+                            '<a href="javascript:;" class="btn btn-xs btn-info" id="tableImport"><i class="fa fa-list"></i> 还原</a> ',
+                            '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i> 删除</a> ',
+                        ].join('');
+                    }else{
+                        return [
+                            '<a href="javascript:;" class="btn btn-xs btn-info" id="tableImport"><i class="fa fa-list"></i> 还原</a> ',
+                            '<a href="javascript:;" class="btn btn-xs btn-danger" id="tableDelete"><i class="fa fa-trash"></i> 删除</a> ',
+                            '<a href="javascript:;" class="btn btn-xs btn-success" id="tableDownload"><i class="fa fa-download"></i> 下载</a>',
+                        ].join('');
+                    }
+                }else{
+                    return [
+                        '<a href="javascript:;" class="btn btn-xs btn-success" id="tableDownload"><i class="fa fa-download"></i> 下载</a>',
+                    ].join('');
+                }
+                
+            },
+        },
+    };
+
+    var TableConfig = {
+        url: '/admin/database/restore',         //请求后台的URL（*）
+        pagination: false,    //设置为 true 会在表格底部显示分页条
+        search: false,    //是否启用搜索框
+        showPaginationSwitch: false,    //是否显示 数据条数选择框
+        columns: [
+            {field:'name',title:'备份名', formatter: Formatter.Api.NameStr}, 
+            {field:'size',title:'大小'}, 
+            {field:'part',title:'分卷数'}, 
+            {field:'compress',title:'是否压缩', formatter: Table.Api.formatter.OtherStatus}, 
+            {
+                field: 'operate',
+                title: '操作',
+                events: Formatter.Api.OperateEvents,  //注册按钮事件
+                formatter: Formatter.Api.OperateFormatter //自定义方法，添加操作按钮
+            }
+        ],
+        idField: 'id',
+        treeShowField: 'name',
+        parentIdField: 'pid',
+        onLoadSuccess: function(data) {
+            $("#tb_departments").treegrid({
+                initialState: 'collapsed', //是否展开
+                treeColumn: 0,
+            });
+        }
+    };
+    Table.Api.Init('tb_departments',TableConfig);
+
+</script>

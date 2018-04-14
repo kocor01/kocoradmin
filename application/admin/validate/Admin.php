@@ -18,8 +18,9 @@ class Admin extends Validate
      * 验证规则
      */
     protected $rule = [
-        'user_name'  =>  'require|chsDash|max:100',
+        'user_name'  =>  'require|chsDash|max:100',  //一个汉字3个字符（UTF-8）
         'nick_name'  =>  'require|chsDash|max:100',
+        'password' =>  'confirm:repassword',
         'email' =>  'require|email',
         'mobile' =>  'require|mobile',
     ];
@@ -33,8 +34,9 @@ class Admin extends Validate
         'nick_name.require' => '昵称必须',
         'nick_name.chsDash'     => '昵称只能是汉字、字母、数字和下划线_及破折号-',
         'nick_name.max'     => '昵称最多100字符',
+        'password'   => '确认密码与密码不一致',
         'email'   => '邮箱格式错误',
-        'mobile'  => '手机格式错误2', 
+        'mobile'  => '手机格式错误', 
     ];
     /**
      * 验证场景

@@ -10,10 +10,7 @@
 
 namespace app\admin\controller;
 
-use think\Db;
 use think\Request;
-use think\Validate;
-use think\Controller;
 use app\admin\model\Login;
 use kocor\Tree;
 use app\admin\validate\Login as validateLogin;
@@ -23,7 +20,7 @@ class Index extends Backend
 {
 
 	//无需登录方法
-	protected $noNeedLogin = ['login','nopermissions'];
+	protected $noNeedLogin = ['login','nopermissions','captcha_src'];
 
 	//无需鉴权方法
 	protected $noNeedAuth = ['index','loginout'];
@@ -33,6 +30,7 @@ class Index extends Backend
 	 */
 	public function _initialize()
     {
+        $this->request->filter(['strip_tags']);     //设置过滤方法
         $this->model = model('Login');              //绑定模型
         $this->validate = validate('Login');        //绑定验证器
 		$this->tree = new Tree;
@@ -47,17 +45,16 @@ class Index extends Backend
 
 		$this->view->engine->layout('layout/layout');
 
-        //左侧菜单
-		$auth_rule_list = model('auth_rule')->select()->toArray();
-		$this->tree->init($auth_rule_list);
+		//管理员权限
+		$AdminRules = $this->auth->getAdminAuthList($this->adminInfo['id']);
+		$this->tree->init($AdminRules);
 
-		$list = $this->tree->get_treeview(0);
+		//生成树
+		$menu_tree = $this->tree->get_treemenu(0);
 
-		$menu_tree = getTree2($auth_rule_list,0);
         $this->view->assign("menu_tree", $menu_tree);
 
 		return $this->fetch('');
-
 	}
 
 
@@ -80,10 +77,12 @@ class Index extends Backend
 			$user_name = $this->request->post('user_name');
 			$password = $this->request->post('password');
 			$remember = $this->request->post('remember');
+			$captcha = $this->request->post('captcha');
 
 			$data = [
 			    'user_name'  => $user_name,
 			    'password'   => $password,
+			    'captcha'   => $captcha,
 			];
 
 			$result   = $this->validate->check($data);
@@ -99,6 +98,14 @@ class Index extends Backend
 		}
 
 		return $this->fetch('');
+	}
+
+
+	/**
+	 *  验证码
+	 */
+	public function captcha_src(){
+		return captcha_img();
 	}
 
 

@@ -18,107 +18,18 @@
       
       <div id="nav" class="pull-left" >
         <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
-          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">控制台</a></li>
+          <li role="presentation" class="active" id="tab_tab_1" aria-url="/admin/index/index.html" aria-ajax="false" class=""><a href="#tab_1" aria-controls="tab_1" role="tab" data-toggle="tab"><i class="fa fa-dashboard"></i> <span>主页</span></a></li>
         </ul>
       </div>
-
-
-
-<style type="text/css">
-  
-.main-header .navbar #nav {
-  position: absolute;
-  left: 45px;
-}
-.nav-addtabs {
-    border: none;
-}
-
-/*顶栏addtabs*/
-.nav-addtabs {
-  border: none;
-}
-.nav-addtabs.disable-top-badge > li > a > .pull-right-container {
-  display: none;
-}
-.nav-addtabs > li {
-  margin: 0;
-}
-.nav-addtabs > li > a {
-  height: 49px;
-  line-height: 49px;
-  padding: 0 18px;
-  border-radius: 0;
-  border: none;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  margin: 0;
-  color: #95a5a6;
-}
-.nav-addtabs > li > a:hover,
-.nav-addtabs > li > a:focus {
-  border: none;
-  color: #2c3e50;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-}
-.nav-addtabs > li > a i {
-  margin-right: 3px;
-}
-.nav-addtabs > li.active > a {
-  height: 49px;
-  line-height: 49px;
-  padding: 0 18px;
-  border-radius: 0;
-  border: none;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  background: #f1f4f6;
-  color: #2c3e50;
-  overflow: hidden;
-}
-.nav-addtabs > li.active > a:hover,
-.nav-addtabs > li.active > a:focus {
-  border: none;
-  color: #2c3e50;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  background: #f1f4f6;
-}
-.nav-addtabs > li .close-tab {
-  font-size: 10px;
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  margin-top: -7px;
-  z-index: 100;
-  cursor: hand;
-  cursor: pointer;
-  color: #fff;
-  display: none;
-}
-.nav-addtabs .open > a:hover,
-.nav-addtabs .open > a:focus {
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-}
-.nav-addtabs ul li {
-  position: relative;
-}
-.nav-addtabs li:hover > .close-tab {
-  display: block;
-}
-
-.tab-addtabs .tab-pane {
-  height: 100%;
-  width: 100%;
-}
-.rightMenu {
-    position: absolute;
-    width: 150px;
-    display: none;
-    z-index:999999;
-}
-</style>
 
       <!-- 右侧导航菜单 -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <li>
+            <a href="{:request()->domain()}" data-toggle="home" title="网站首页" target="_bleak">
+                <i class="fa fa-home"></i>
+            </a>
+          </li>
           <!-- 消息:在dropdown.less风格可以找到-->
           <li class="dropdown messages-menu">
             <!-- 菜单切换按钮 -->
@@ -209,6 +120,11 @@
               </li>
             </ul>
           </li>
+          <li>
+            <a href="javascript:;" data-toggle="wipecache" title="清空缓存">
+                <i class="fa fa-trash"></i>
+            </a>
+          </li>
           <!-- 管理帐户菜单 -->
           <li class="dropdown user user-menu">
             <!-- 菜单切换按钮 -->
@@ -220,11 +136,11 @@
               <li class="user-header">
                 <img src="__STATIC__/images/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
-                  kocor - PHP工程师
-                  <small>只为自己开发框架</small>
+                  用户名:{$adminInfo.user_name} - 昵称:{$adminInfo.nick_name}
+                  <small>最后登录时间：{$adminInfo.last_login_time}</small>
                 </p>
               </li>
-              <!-- 菜单主体 -->
+              <!-- 菜单主体
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">

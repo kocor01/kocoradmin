@@ -47,13 +47,12 @@ class Backend extends Controller
     {
 
         parent::_initialize();
-        $this->request->filter(['strip_tags']);     //设置过滤方法
 
         $request = Request::instance();
         $module = $request->module();
-		$controller = $request->controller();
-		$action = $request->action();
-		$path = $request->controller().'/'.$request->action();
+		$controller = strtolower($request->controller());
+		$action = strtolower($request->action());
+		$path = humpToLine($request->controller().'/'.$request->action());
 
 
 		//以下绑定信息可以在继承该类时重新指定
@@ -68,32 +67,36 @@ class Backend extends Controller
 		}
         
         $login = model('Login');
+		$this->auth = new Auth;
 
-   //      //检测是否需要验证登录
-   //      if($login->isNeedLogin($action,$this->noNeedLogin)){
-	  //       //判断是否登录
-	  //       if(!$login->isLogin()){
-	  //       	$this->success("你还未登录",'admin/index/login');
-	  //       }
+        //检测是否需要验证登录
+        if($login->isNeedLogin($action,$this->noNeedLogin)){
+	        //判断是否登录
+	        if(!$login->isLogin()){
+	        	$this->success("你还未登录",'admin/index/login');
+	        }
 	        
-	  //       //获取登录管理员信息
-	  //       $this->adminInfo = model('Admin')->getAdminLoginInfo();
+	        //获取登录管理员信息
+	        $this->adminInfo = model('Admin')->getAdminLoginInfo();
 
-			// $this->auth = new Auth;
-	  //       //检测是否需要验证权限
-	  //       if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
-		 //        //权限控制
-			// 	if(!$this->auth->check($path,$this->adminInfo['id'])){
-			// 		$this->error("你没有权限！",'admin/index/nopermissions');
-			// 	}
-	  //       }
-   //      }
-
-
+	        //检测是否需要验证权限
+	        if($this->auth->isNeedAuth($action,$this->noNeedAuth)){
+		        //权限控制
+				if(!$this->auth->check($path,$this->adminInfo['id'])){
+					$this->error("你没有权限！",'admin/index/nopermissions');
+				}
+	        }
+        }
 
         //登录信息
-        $adminInfo = Session::get('admin');
-        $this->view->assign("adminInfo", $adminInfo);
+        $this->adminInfo = Session::get('admin');
+        $this->view->assign("adminInfo", $this->adminInfo);
+
+        //面包屑导航
+        $breadCrumbs = $this->auth->getBreadCrumbs($path);
+        $this->view->assign("breadCrumbs", $breadCrumbs);
+        
+
     }
 
     

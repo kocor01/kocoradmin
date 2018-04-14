@@ -62,6 +62,29 @@ class Admin extends Model
         return $this->hasMany('auth_group_access','uid')->field('uid,group_id');
     }
 
+    /**
+     * 更新管理员权限
+     * @param string $id 管理员ID
+     * @param array $groups 赋权权限组
+     * @return bool
+     */
+    public function reAdminGroupAccess($id,$groups){
+        //权限组数组
+        $group_arr = [];
+        foreach ($groups as $value) {
+            $group_arr[] = ['group_id'=>$value];
+        }
+
+        //更新权限组
+        $Admin = Admin::get($id);
+        //关联删除
+        $Admin->group_access()->delete();
+        //关联添加
+        $Admin->group_access()->saveAll($group_arr);
+
+        return true;
+    }
+
 
 
 

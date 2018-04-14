@@ -1,0 +1,80 @@
+<!-- Custom Tabs -->
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs nav-bg">
+    {volist name="getCategoryType" id="vo" }
+    <li {eq name="i" value="1"}class="active"{/eq}><a href="#tab_{$key}" data-toggle="tab">{$vo}</a></li>
+    {/volist}
+    <li class=""><a href="javascript:;" id="config_add"><i class="fa fa-plus"></i>&nbsp;添加配置</a></li>
+  </ul>
+  <form id="add-form" role="form" data-toggle="validator" method="POST" action="{:url('admin/config/edit')}">
+    <div class="form-group">
+    <div class="tab-content">
+      {volist name="getGroupList" id="vo" key="k"}
+      <div class="tab-pane {eq name="k" value="1" }active{/eq}" id="tab_{$key}">
+        <div class="box-body">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th width="12%">变量标题</th>
+                <th>变量值</th>
+                <th width="12%">变量名</th>
+                <th width="15%">提示信息</th>
+              </tr>
+              {volist name="vo" id="vol" }
+              <tr>
+                <td>{$vol.title}</td>
+                <td>
+                {switch $vol.type}
+                    {case value="text"}
+                    <textarea name="row[{$vol.name}]" class="form-control" data-rule="" rows="5">{$vol.value}</textarea>
+                    {/case}
+                    {default /}
+                    <input type="text" name="row[{$vol.name}]" value='{$vol.value}' class="form-control" data-rule="">
+                {/switch}
+                </td>
+                <td>{literal}{{/literal}$site.{$vol.name}{literal}}{/literal}</td>
+                <td>{$vol.msg}</td>
+              </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {/volist}
+
+      <div class="tab-pane" id="tab_add">
+        fdbhsfnhsf
+      </div>
+    <!-- /.tab-pane -->
+    </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">确认</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+        </div>
+    </div>
+</form>
+<!-- /.tab-content -->
+</div>
+
+<style type="text/css">
+  .nav-bg{background:#f4f4f4;}
+</style>
+
+<script type="text/javascript">
+  $("#config_add").click(function () {
+      layer.open({
+          type: 2,
+          title: '增加',
+          maxmin: true,
+          shadeClose: true, //点击遮罩关闭层
+          area : ['800px' , '520px'],
+          content: '/admin/config/add',
+          end: function () {
+            location.reload() 
+          }
+      });
+  });
+</script>

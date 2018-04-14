@@ -1,0 +1,53 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">类型：</label>
+        <div class="col-xs-12 col-sm-8">
+        <select class="form-control" name="row[type]">
+            {volist name="getTypeList" id="vo"}
+            <option value="{$key}">{$vo}</option>
+            {/volist}
+        </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">分组：</label>
+        <div class="col-xs-12 col-sm-8">
+        <select class="form-control" name="row[group]">
+            {volist name="getCategoryType" id="vo"}
+            <option value="{$key}">{$vo}</option>
+            {/volist}
+        </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">变量名：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[name]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">标题：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input data-rule="required" class="form-control" name="row[title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">变量值：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" name="row[value]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">提示信息：</label>
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control" name="row[msg]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">确认</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+        </div>
+    </div>
+</form>

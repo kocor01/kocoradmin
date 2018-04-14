@@ -363,8 +363,8 @@
 
         //var tab_content = tab_li.next('.tab-content');
         var tab_content = $('.tab-content').eq(0);
-
         tab_li.children('li[role = "presentation"].active').removeClass('active');
+        tab_li.children('li.tab-drop').children('ul.dropdown-menu').children('li[role = "presentation"].active').removeClass('active');
         tab_content.children('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (tab_li.find('#tab_' + id).length < 1) {

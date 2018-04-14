@@ -1,0 +1,61 @@
+<div class="box box-primary">
+    <div class="box-body">
+        <form id="add-form" class="form-horizontal"  method="POST" action="">
+
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-8">
+                <label>备份设置：</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">分卷大小(字节):</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input data-rule="required" class="form-control" name="row[part]" type="text" value="20971520" placeholder="20971520 = 20M">字节：20971520 = 20M
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="c-status" class="control-label col-xs-12 col-sm-2">是否压缩:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="radio">
+                        <label><input checked="checked" name="row[compress]" type="radio" value="1"> 是</label> 
+                        <label><input name="row[compress]" type="radio" value="0"> 否</label>
+                    </div>        
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-8">
+                <label></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-8">
+                <label>选择需要备份的表：</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-8">
+                <label><input name="selectall" type="checkbox" checked="checked" value="" onclick="javascript:$('.K_check').attr('checked', this.checked);" /> 全选</label>
+                </div>
+            </div>
+            <div class="form-group" id="K_check">
+                {volist name="tableList" id="vol"}
+                <div class="col-xs-6 col-sm-3">
+                    <input type="checkbox" name="row[tables][]" checked="checked" value="{$vol.name}" class="K_check"> {$vol.name}
+                </div>
+                {/volist}
+            </div>
+            <div class="form-group layer-footer">
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed">数据备份</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
