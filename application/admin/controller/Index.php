@@ -47,15 +47,13 @@ class Index extends Backend
 
 		$this->view->engine->layout('layout/layout');
 
-
         //左侧菜单
 		$auth_rule_list = model('auth_rule')->select()->toArray();
 		$this->tree->init($auth_rule_list);
 
-			echo $list = $this->tree->get_treeview(0);
+		$list = $this->tree->get_treeview(0);
 
-		exit;
-		echo $menu_tree = getTree2($auth_rule_list,0);exit;
+		$menu_tree = getTree2($auth_rule_list,0);
         $this->view->assign("menu_tree", $menu_tree);
 
 		return $this->fetch('');
