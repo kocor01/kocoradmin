@@ -88,20 +88,17 @@ class Ajax extends Backend
      */
     public function ckUpload(){
 
-        $fileType = 'images';
-
-        $cknum = Request::instance()->param('CKEditorFuncNum');
+         $fileType = Request::instance()->param('type');
 
         $file = request()->file('upload');
         // 上传图片处理
         $info = self::fileSave($file,$fileType);
         if($info){
             $savePath = self::fileShowPath($fileType,$info->getSaveName());
-            // 成功上传后 获取上传信息
-            echo "<script>window.parent.CKEDITOR.tools.callFunction(".$cknum.", '".$savePath."', '');</script>";
+            return '{"fileName":"'.$savePath.'","uploaded":1,"url":"'.$savePath.'"}';
         }else{
             // 上传失败获取错误信息 通知ck失败消息 
-            echo "<script>window.parent.CKEDITOR.tools.callFunction($cknum, '', $file->getError());</script>";
+            return '{"fileName":"上传失败","uploaded":1,"url":"上传失败"}';
         }
     }
 

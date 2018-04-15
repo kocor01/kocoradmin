@@ -12,23 +12,12 @@ var CkEditor = {
     //基础配置
     Defaults:{
         height: 350,   
-        filebrowserUploadUrl: "/admin/ajax/ckUpload", //设置图片上传请求地址  
+        filebrowserUploadUrl: "/admin/ajax/ckUpload/?type=images", //设置图片上传请求地址  
     },
     //接口
     Api:{
         Init:function(CtrlName){
-            CKEDITOR.replace(CtrlName, {   
-                height: 350,   
-                filebrowserUploadUrl: "/admin/ajax/ckUpload", //设置图片上传请求地址  
-            });
-
-            // $("#btn_submit").click(function () {
-            //     $("#"+CtrlName).val(getContenet());
-            // });
-
-            // function getContenet(){
-            //     return CKEDITOR.instances.CtrlName.getData();    //获取textarea的值
-            // }
+            CKEDITOR.replace(CtrlName, CkEditor.Defaults);
         },
     },
 };
